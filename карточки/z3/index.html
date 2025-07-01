@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Адаптивный шаблон</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        
+        .template {
+            width: 100%;
+            max-width: 1280px;
+            min-height: 100vh;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+        }
+        
+        /* Общие стили для всех блоков */
+        .block {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        /* Десктопная версия */
+        .header {
+            height: 100px;
+            background-color: #ff629e;
+        }
+        
+        .nav {
+            height: 100px;
+            background-color: #e25a8e;
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+        }
+        
+        .sidebar {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-top {
+            height: 50%;
+            background-color: #ff8ab4;
+            overflow: hidden;
+        }
+        
+        .sidebar-top img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .sidebar-bottom {
+            height: 50%;
+            background-color: #ffbcd5;
+        }
+        
+        .content {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .content-top {
+            height: 100px;
+            background-color: #e25a8e;
+        }
+        
+        .content-main {
+            flex: 1;
+            background-color: #ff7cae;
+        }
+        
+        .footer {
+            height: 100px;
+            background-color: #ff7cae;
+        }
+
+        /* Мобильная версия (менее 480px) */
+        @media (max-width: 480px) {
+            .nav {
+                display: none;
+            }
+            
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar, 
+            .content {
+                width: 100%;
+            }
+            
+            .sidebar-top {
+                height: 200px;
+            }
+            
+            .sidebar-bottom {
+                height: 100px;
+            }
+            
+            .content-top {
+                height: 80px;
+            }
+        }
+
+        /* Планшетная версия (менее 800px) */
+        @media (max-width: 800px) {
+            .template {
+                max-width: 800px;
+            }
+            
+            .sidebar-top {
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="template">
+        <!-- Блок 1 -->
+        <div class="header block">Шапка сайта</div>
+        
+        <!-- Блок 2 (скрывается на мобильных) -->
+        <div class="nav block">Навигация</div>
+        
+        <div class="main-content">
+            <!-- Блок 3 -->
+            <div class="sidebar">
+                <div class="sidebar-top">
+                    <img src="photo.jpg">
+                </div>
+                <!-- Блок 4 -->
+                <div class="sidebar-bottom block">Боковая панель</div>
+            </div>
+            
+            <div class="content">
+                <!-- Блок 5 -->
+                <div class="content-top block">Заголовок контента</div>
+                <!-- Блок 6 -->
+                <div class="content-main block">Основное содержимое</div>
+            </div>
+        </div>
+        
+        <!-- Блок 7 -->
+        <div class="footer block">Подвал сайта</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Цикл for - вывод 23 раза</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 25px;
+            text-align: center;
+        }
+        .output {
+            background-color: #f9e7f0;
+            padding: 15px;
+            border-radius: 5px;
+            max-width: 300px;
+            margin: 20px auto;
+            display: none;
+        }
+        button {
+            background-color: #ff6b9e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            margin: 0 10px;
+        }
+        button:hover {
+            background-color: #ff4785;
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(1px);
+        }
+        #hideBtn {
+            background-color: #6749ff;
+            display: none;
+        }
+        #hideBtn:hover {
+            background-color: #6749ff;
+        }
+        .buttons-container {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="buttons-container">
+        <button id="showBtn" onclick="showNames()">Показать список</button>
+        <button id="hideBtn" onclick="hideNames()">Скрыть список</button>
+    </div>
+    <div id="output" class="output"></div>
+
+    <script>
+        function showNames() {
+            const outputDiv = document.getElementById('output');
+            const showBtn = document.getElementById('showBtn');
+            const hideBtn = document.getElementById('hideBtn');
+            
+            // Показываем блок и кнопку скрытия
+            outputDiv.style.display = 'block';
+            hideBtn.style.display = 'inline-block';
+            showBtn.style.display = 'none';
+            
+            // Очищаем и заполняем список
+            outputDiv.innerHTML = '';
+            for (let i = 1; i <= 23; i++) {
+                outputDiv.innerHTML += `${i}. Шикута Камилла<br>`;
+            }
+        }
+
+        function hideNames() {
+            const outputDiv = document.getElementById('output');
+            const showBtn = document.getElementById('showBtn');
+            const hideBtn = document.getElementById('hideBtn');
+            
+            // Скрываем блок и кнопку скрытия
+            outputDiv.style.display = 'none';
+            hideBtn.style.display = 'none';
+            showBtn.style.display = 'inline-block';
+        }
+    </script>
+</body>
+</html>

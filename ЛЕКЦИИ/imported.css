@@ -1,0 +1,31 @@
+/* Общие стили для страницы */
+body {
+    background-image: url('image.jpg'); /* Укажите путь к картинке */
+    background-repeat: no-repeat; /* Не повторяем фон */
+    font-family: 'Times New Roman', serif; /* Шрифт Times New Roman */
+    font-size: 16pt; /* Размер шрифта 16pt */
+    color: rgb(178, 230, 173); /* Голубой цвет текста */
+    margin: 20px;
+}
+
+/* Стили для ссылок */
+a {
+    text-decoration: none; /* Убираем подчеркивание */
+    color: #366595;
+}
+
+a:hover {
+    text-decoration: none; /* Убираем подчеркивание */
+    color: green; /* Зеленый цвет при наведении */
+}
+
+a:active {
+    text-decoration: none; /* Убираем подчеркивание */
+    color: #dfefff; /* Цвет активной ссылки */
+}
+
+/* Стили для списка */
+ul li {
+    font-weight: bold;
+    color: #bc2222;
+}

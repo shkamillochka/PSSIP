@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вариант 22 (z1)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        
+        .template {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+        }
+        
+        .header, 
+        .nav, 
+        .footer {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .header {
+            background-color: #ff629e;
+        }
+        
+        .nav {
+            background-color: #e25a8e;
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            width: 100%;
+        }
+        
+        .sidebar {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-top {
+            height: 50%;
+            background-color: #ff8ab4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .sidebar-bottom {
+            height: 50%;
+            background-color: #ffbcd5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .content {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .content-top {
+            height: 100px;
+            background-color: #e25a8e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .content-main {
+            flex: 1;
+            background-color: #ff7cae;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .footer {
+            background-color: #ff7cae;
+        }
+    </style>
+</head>
+<body>
+    <div class="template">
+        <div class="header">Шапка сайта</div>
+        <div class="nav">Навигация</div>
+        
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="sidebar-top">
+                    <img src="photo.jpg" >
+                </div>
+                <div class="sidebar-bottom">Боковая панель</div>
+            </div>
+            <div class="content">
+                <div class="content-top">Заголовок контента</div>
+                <div class="content-main">Основное содержимое</div>
+            </div>
+        </div>
+        
+        <div class="footer">Подвал сайта</div>
+    </div>
+</body>
+</html>

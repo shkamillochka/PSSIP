@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портфолио-резюме</title>
+    
+    <!-- 1. Импортирование CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- 2. Встроенное @import -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Roboto:wght@300;400;700&display=swap');
+    </style>
+    
+    <!-- 3. Внутреннее оформление -->
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right, #ff7eb3, #ff758c);
+            color: #333;
+            text-align: center;
+        }
+        
+        .title {
+            font-family: 'Lobster', cursive;
+            color: #222;
+            font-size: 2rem;
+        }
+        
+        #photo {
+            border-radius: 50%;
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.5);
+            width: 200px;
+            transition: transform 1s;
+            animation: rotate 5s linear infinite;
+        }
+        
+        button:hover {
+            background-color: #e6006e;
+            transform: scale(1.1);
+        }
+        
+        p::first-letter {
+            font-size: 1.5em;
+            color: #ff4081;
+            font-weight: bold;
+        }
+        
+        div > p {
+            font-weight: bold;
+        }
+        
+        h2 + p {
+            font-style: italic;
+        }
+        
+        input[type="text"] {
+            border: 2px solid #ff4081;
+            padding: 5px;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        strong {
+            font-size: 1.2em;
+            color: #c2185b;
+        }
+        
+        em {
+            font-size: 1.1em;
+            font-style: italic;
+            color: #d81b60;
+        }
+        
+        p {
+            font-size: 18px;
+            font-weight: bold;
+            color: #880e4f;
+        }
+        
+        a {
+            font-size: 1.2em;
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <img id="photo" src="photo.jpg" alt="Фотография">
+    <h2 class="title">Шикута Камилла Антоновна</h2>
+    <p><strong>Должность:</strong> <em>Инженер-программист</em></p>
+    <p><strong>Дата рождения:</strong> <em>21.08.2007</em></p>
+    <p><strong>Контактная информация:</strong> <a href="mailto:kamillasikuta@gmail.com">kamillasikuta@gmail.com</a></p>
+    
+    <form>
+        <label for="name">Введите имя:</label> 
+        <input type="text" id="name" name="name" style="font-size: 16px; border-radius: 5px; padding: 5px;"> <!-- 4. Инлайн стиль -->
+        <button type="submit">Отправить</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портфолио-резюме</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+       @import url('https://fonts.googleapis.com/css2?family=Boldonse&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right, #ff7eb3, #ff758c);
+            color: #333;
+            text-align: center;
+        }
+        h2 {
+            font-family: 'Lobster', cursive;
+            color: #222;
+            transition: transform 0.3s;
+        }
+        h2:hover {
+            transform: scale(1.1);
+        }
+        p, li, label, select, input, textarea, td, a {
+            font-size: 18px;
+            text-align: left;
+        }
+        p::first-letter, h2::first-letter {
+            font-family: 'Lobster', cursive;
+            color: #ff4081;
+            font-size: 1.5em;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            background-color: #fff3f3;
+            border-radius: 10px;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+        }
+        table, th, td {
+            border: 1px solid #ff4081;
+        }
+        th, td {
+            padding: 10px;
+        }
+        .styled-table {
+            width: 60%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        .styled-table th, .styled-table td {
+            border: 2px solid #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        .styled-table th {
+            background-color: #ff4081;
+            color: white;
+        }
+        .styled-table td:nth-child(odd) {
+            background-color: #ffebf0;
+        }
+        .styled-table td:nth-child(even) {
+            background-color: #ffc1d6;
+        }
+        form {
+            margin: 20px auto;
+            width: 50%;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+        }
+        button {
+            background-color: #ff4081;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+        button:hover {
+            background-color: #e6006e;
+            transform: scale(1.1);
+        }
+        img {
+            border-radius: 1000px;
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.5);
+            animation: rotate360 5s linear infinite;
+        }
+        @keyframes rotate360 {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        ul.custom-list {
+            list-style: none;
+            padding: 0;
+        }
+        ul.custom-list li {
+            padding-left: 30px;
+            background: url('marker.png') no-repeat left center;
+            background-size: 20px 30px;
+            margin-bottom: 3px;
+        }
+        a {
+            color: #ff4081;
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color: darkred;
+            text-decoration: underline;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h2, p, form, table {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Стили для различных типов текста */
+        .bold-text {
+            font-weight: bold;
+        }
+        .italic-text {
+            font-style: italic;
+        }
+        .underlined-text {
+            text-decoration: underline;
+        }
+        .strikethrough-text {
+            text-decoration: line-through;
+        }
+        .overline-text {
+            text-decoration: overline;
+        }
+        .uppercase-text {
+            text-transform: uppercase;
+        }
+        .lowercase-text {
+            text-transform: lowercase;
+        }
+        .capitalize-text {
+            text-transform: capitalize;
+        }
+        .shadow-text {
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .stylish-text {
+            font-family: 'Lobster', cursive;
+            color: #ff4081;
+        }
+        
+    </style>
+</head>
+<body>
+    <img src="photo.jpg" alt="Фотография" width="250">
+    <h2>Шикута Камилла Антоновна</h2>
+    <p style="font-family:Boldonse;"><strong>Должность:</strong> <em>Инженер-программист</em></p>
+    <p><strong>Дата рождения:</strong> <em>21.08.2007</em></p>
+    <p><strong>Контактная информация:</strong> <a href="mailto:kamillasikuta@gmail.com">kamillasikuta@gmail.com</a></p>
+
+    <!-- Примеры применения различных стилей -->
+    <p class="bold-text">Этот текст жирный.</p>
+    <p class="italic-text">Этот текст курсивный.</p>
+    <p class="underlined-text">Этот текст подчеркнутый.</p>
+    <p class="strikethrough-text">Этот текст зачеркнутый.</p>
+    <p class="overline-text">Этот текст перечеркнутый.</p>
+    <p class="uppercase-text">этот текст будет ВЕРХНИМ РЕГИСТРОМ.</p>
+    <p class="lowercase-text">ЭТОТ ТЕКСТ БУДЕТ нижним регистром.</p>
+    <p class="capitalize-text">этот текст будет с заглавными буквами.</p>
+    <p class="shadow-text">Этот текст с тенью.</p>
+    <p class="stylish-text">Этот текст с декоративным шрифтом.</p>
+
+    <ul class="custom-list">
+        <li>Зима</li>
+        <li>Весна</li>
+        <li>Лето</li>
+        <li>Осень</li>
+    </ul>
+
+    <table class="styled-table">
+        <tr>
+            <th>№</th>
+            <th>Названик книги</th>
+            <th>Автор</th>
+            <th>Прочитано/Не прочитано</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Гончие Лилит</td>
+            <td>Кристина Старк</td>
+            <td>Прочитано</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Агрессор</td>
+            <td>Пенелопа Дуглас</td>
+            <td>Прочитано</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Творец Слез</td>
+            <td>Эрин Дум</td>
+            <td>Не прочитано</td>
+        </tr>
+    </table>
+
+    <form>
+        <label for="name">Введите имя:</label>
+        <input type="text" id="name" name="name" style="border: 2px solid #ff4081; border-radius: 5px; padding: 5px;">
+        <button type="submit">Отправить</button>
+    </form>
+</body>
+</html>

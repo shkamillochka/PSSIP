@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Работа со строками</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .task {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .result {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Работа со строками</h1>
+    
+    <div class="task">
+        <h2>Исходные данные:</h2>
+        <p id="originalS1"></p>
+        <p id="originalS2"></p>
+    </div>
+    
+    <button onclick="processStrings()">Обработать строки</button>
+    
+    <div class="result" id="results"></div>
+
+    <script>
+        // Исходные строки
+        const S1 = "Камилла"; 
+        const S2 = "танцы, спорт";  
+        
+        // Отображаем исходные данные
+        document.getElementById('originalS1').textContent = `S1: ${S1}`;
+        document.getElementById('originalS2').textContent = `S2: ${S2}`;
+        
+        function processStrings() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<h2>Результаты обработки:</h2>';
+            
+            // 1. Определить длину строки S1
+            const lengthS1 = S1.length;
+            resultsDiv.innerHTML += `<p>1. Длина строки S1: ${lengthS1} символов</p>`;
+            
+            // 2. Вставить в строку S2 между словами дополнительные пробелы
+            const spacedS2 = S2.split(',').join('  ,  '); // Добавляем по 2 пробела вокруг запятых
+            resultsDiv.innerHTML += `<p>2. S2 с дополнительными пробелами: "${spacedS2}"</p>`;
+            
+            // 3. Заменить имя в строке S1 на "Павел"
+            const replacedS1 = S1.replace(S1, 'Павел');
+            resultsDiv.innerHTML += `<p>3. S1 после замены: "${replacedS1}"</p>`;
+            
+            // Дополнительные операции для демонстрации
+            resultsDiv.innerHTML += `<h3>Дополнительная информация:</h3>`;
+            resultsDiv.innerHTML += `<p>Исходная S1: "${S1}"</p>`;
+            resultsDiv.innerHTML += `<p>Исходная S2: "${S2}"</p>`;
+            resultsDiv.innerHTML += `<p>S2 в верхнем регистре: "${S2.toUpperCase()}"</p>`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=\"device-width\", initial-scale=1.0">
+    <title>Портфолио-резюме</title>
+</head>
+<body>
+    <img src="photo.jpg" alt="Фотография" width="250" height="auto">
+    
+    <h2>Шикута Камилла Антоновна</h2>
+    <p><strong>Желаемая должность:</strong> <em>Инженер-программист</em></p>
+    <p><strong>Желаемый уровень дохода:</strong> <em>10000 BYN</em></p>
+    <p><strong>Дата рождения:</strong> <em>21.08.2007</em></p>
+    <p><strong>Проживание:</strong> <em>г. Гродно</em></p>
+    <p><strong>Контактная информация:</strong></p>
+    <p>Телефон: <em>+375 (29) 854-27-73</em></p>
+    <p>Email: <em>kamillasikuta@gmail.com</em></p>
+    
+    <h2>В этом видео я расскажу немного о себе</h2>
+    <video width="500" controls>
+        <source src="video.mp4" type="video/mp4">
+        Ваш браузер не поддерживает видео.
+    </video>
+    
+    <h2>Ключевые знания и навыки</h2>
+    <ul>
+        <li><em>Знание языков программирования</em></li>
+        <li><em>Умение соблюдать дедлайн</em></li>
+        <li><em>Работа с разными программами</em></li>
+        <li><em>Работа с графической частью</em></li>
+    </ul>
+    
+    <h2>Опыт работы</h2>
+    <p><strong>05.2025 – 07.2025</strong> <em>Учебная практика, Школа № 34</em></p>
+    <p><strong>07.2025 – 10.2025</strong> <em>Оператор ЭВМ, Гродно</em></p>
+    
+    <h2>Образование</h2>
+    <p><strong>2026 – </strong> <em>Учреждение образования "Гродненский государственный политехнический колледж", техник-программист</em></p>
+    
+    <h2>Тест</h2>
+    <form>
+        <label for="name">Введите имя:</label>
+        <input type="text" id="name" name="name">
+        
+        <p><strong>1. Ваша любимая книга?</strong></p>
+        <input type="checkbox" id="book1" name="book" value="Гончие Лилит">
+        <label for="book1">Гончие Лилит</label><br>
+        <input type="checkbox" id="book2" name="book" value="Осколки света">
+        <label for="book2">Осколки света</label><br>
+        <input type="checkbox" id="book3" name="book" value="Разрушительная любовь">
+        <label for="book3">Разрушительная любовь</label><br>
+        
+        <p><strong>2. Ваша любимая песня?</strong></p>
+        <input type="radio" id="song1" name="song" value="Автостопом">
+        <label for="song1">Автостопом</label><br>
+        <input type="radio" id="song2" name="song" value="Матрешка">
+        <label for="song2">Матрешка</label><br>
+        <input type="radio" id="song3" name="song" value="Город">
+        <label for="song3">Город</label><br>
+        <button type="submit">Отправить</button>
+    </form>
+
+    <h2>Таблица</h2>
+    <table border="1" cellspacing="0">
+        <tr>
+            <td colspan="2">Объединено горизонтально</td>
+            <td>Текст</td>
+            <td>Текст</td>
+            <td>Текст</td>
+        </tr>
+        <tr>
+            <td rowspan="2">Объединено вертикально</td>
+            <td>Текст</td>
+            <td>Текст</td>
+            <td>Текст</td>
+            <td>Текст</td>
+        </tr>
+        <tr>
+            <td>Текст</td>
+            <td>Текст</td>
+            <td>Текст</td>
+            <td>Текст</td>
+        </tr>
+        <tr>
+            <td>Текст</td>
+            <td>Текст</td>
+            <td>Текст</td>
+            <td>Текст</td>
+            <td>Текст</td>
+        </tr>
+        <tr>
+            <td>Текст</td>
+            <td>Текст</td>
+            <td>Текст</td>
+            <td>Текст</td>
+            <td>Текст</td>
+        </tr>
+    </table>
+    
+    <h2>Выберите курс:</h2>
+    <label for="course">Выберите курс:</label>
+    <select id="course" name="course">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+    </select>
+
+    <br><br>
+    <textarea rows="5" cols="20">
+Марс
+Венера
+Юпитер
+Меркурий
+Сатурн
+    </textarea>
+    
+    <br>
+    <h2>Список Шикута</h2>
+    <ol>
+        <li>Шикута Камилла Антоновна</li>
+        <li>Шикута Мартин Антонович</li>
+        <li>Шикута Ромуальд Антонович</li>
+    </ol>
+
+    <a href="https://kinogo.ec/8373-strela-2012-k1.html" target="_blank">Ссылка на сериал "Стрела"</a>
+    
+    <h2>Аудио</h2>
+    <audio controls>
+        <source src="GUF.mp3" type="audio/mpeg">
+        Ваш браузер не поддерживает аудио.
+    </audio>
+    
+    <br>
+    <a href="#top">Наверх</a>
+</body>
+</html>

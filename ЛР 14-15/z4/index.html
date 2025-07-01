@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Информация о системе</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .info {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Добро пожаловать на наш сайт</h1>
+    <p>Через 6 секунд вы увидите информацию о вашей операционной системе</p>
+    <div class="info" id="systemInfo">
+        Информация о системе появится здесь...
+    </div>
+
+    <script>
+        // Функция для определения операционной системы
+        function getOperatingSystem() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            
+            if (/windows|win32/i.test(userAgent)) {
+                return "Windows";
+            }
+            if (/macintosh|mac os x/i.test(userAgent)) {
+                return "MacOS";
+            }
+            if (/linux/i.test(userAgent)) {
+                return "Linux";
+            }
+            if (/android/i.test(userAgent)) {
+                return "Android";
+            }
+            if (/iphone|ipad|ipod/i.test(userAgent)) {
+                return "iOS";
+            }
+            
+            return "Неизвестная ОС";
+        }
+
+        // Вывод информации через 6 секунд
+        setTimeout(function() {
+            const os = getOperatingSystem();
+            const infoText = `Ваша операционная система: ${os}\n\nUser Agent: ${navigator.userAgent}`;
+            
+            // Выводим в alert
+            alert(infoText);
+            
+            // Также выводим на страницу
+            document.getElementById('systemInfo').innerHTML = `
+                <h3>Информация о вашей системе:</h3>
+                <p><strong>Операционная система:</strong> ${os}</p>
+                <p><strong>User Agent:</strong> ${navigator.userAgent}</p>
+            `;
+        }, 6000);
+    </script>
+</body>
+</html>

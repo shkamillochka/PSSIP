@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вариант 22 (z1)</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .template {
+            width: 1800px;
+            height: 1200px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            width: 1600px;
+            height: 100px;
+            background-color: #ff629e;
+            margin: 10px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .nav {
+            width: 1600px;
+            height: 100px;
+            background-color: #e25a8e;
+            margin: 10px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .main-content {
+            display: flex;
+            flex: 1;
+            margin: 10px auto;
+            width: 1600px;
+        }
+        
+        .sidebar {
+            width: 500px;
+            background-color: #ffa0c5;
+            margin-right: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-top {
+            height: 50%;
+            background-color: #ff8ab4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .sidebar-bottom {
+            height: 50%;
+            background-color: #ffbcd5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .sidebar-bottom img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .content {
+            flex: 1;
+            background-color: #ff3985;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .content-top {
+            height: 100px;
+            background-color: #e25a8e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .content-main {
+            flex: 1;
+            background-color: #ff7cae;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .footer {
+            width: 1600px;
+            height: 100px;
+            background-color: #ff7cae;
+            margin: 10px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="template">
+        <div class="header">Шапка сайта</div>
+        <div class="nav">Навигация</div>
+        
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="sidebar-top">
+                     <img src="photo.jpg">
+                </div>
+                <div class="sidebar-bottom">Боковая панель
+                </div>
+            </div>
+            <div class="content">
+                <div class="content-top">Заголовок контента</div>
+                <div class="content-main">Основное содержимое</div>
+            </div>
+        </div>
+        
+        <div class="footer">Подвал сайта</div>
+    </div>
+</body>
+</html>

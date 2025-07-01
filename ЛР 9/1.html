@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Комплексный JavaScript</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+           font-family: 'Montserrat', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 10px solid #ff00c8;
+            border-radius: 5px;
+        }
+        h2 {
+            color: #000000;
+            border-bottom: 2px solid #ff00bb;
+            padding-bottom: 5px;
+        }
+        button {
+            background-color: #ff00bb;
+            color: rgb(255, 255, 255);
+            border: none;
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ff00aa;
+        }
+    </style>
+    <!-- Внешний скрипт -->
+    <script src="external.js"></script>
+    <!-- Внутренний скрипт -->
+    <script>
+        function internalFunction() {
+            alert('Это внутренний JavaScript!');
+        }
+        
+        // Функция для демонстрации операторов
+        function demoOperators() {
+            // if-else
+            let age = prompt("Сколько вам лет?");
+            if (age >= 18) {
+                alert("Вы совершеннолетний!");
+            } else {
+                alert("Вы еще несовершеннолетний!");
+            }
+            
+            // switch
+            let day = prompt("Введите номер дня недели (1-7)");
+            switch(day) {
+                case '1': alert("Понедельник"); break;
+                case '2': alert("Вторник"); break;
+                case '3': alert("Среда"); break;
+                case '4': alert("Четверг"); break;
+                case '5': alert("Пятница"); break;
+                case '6': alert("Суббота"); break;
+                case '7': alert("Воскресенье"); break;
+                default: alert("Некорректный ввод!");
+            }
+            
+            // for
+            let numbers = "";
+            for (let i = 1; i <= 10; i++) {
+                numbers += i + " ";
+            }
+            alert("Числа от 1 до 10: " + numbers);
+            
+            // while
+            let count = 1;
+            let result = "";
+            while (count <= 5) {
+                result += count + " ";
+                count++;
+            }
+            alert("Результат while: " + result);
+            
+            // do-while
+            let input;
+            do {
+                input = prompt("Введите 'стоп' для выхода");
+            } while (input !== 'стоп');
+            alert("Цикл завершен!");
+            
+            // break
+            for (let i = 1; i <= 10; i++) {
+                if (i === 6) break;
+                alert("Текущее число: " + i);
+            }
+            alert("Цикл прерван на числе 6");
+            
+            // continue
+            let output = "";
+            for (let i = 1; i <= 10; i++) {
+                if (i % 2 === 0) continue;
+                output += i + " ";
+            }
+            alert("Нечетные числа от 1 до 10: " + output);
+            
+            // return
+            function square(number) {
+                return number * number;
+            }
+            let num = prompt("Введите число для возведения в квадрат:");
+            alert("Квадрат числа: " + square(num));
+        }
+        
+        // Функции для диалоговых окон
+        function showAlert() {
+            alert("Это простое сообщение для пользователя!");
+        }
+        
+        function showConfirm() {
+            let isConfirmed = confirm("Вы уверены, что хотите продолжить?");
+            alert(isConfirmed ? "Вы нажали OK!" : "Вы нажали Отмена!");
+        }
+        
+        function showPrompt() {
+            let name = prompt("Как вас зовут?", "Иван");
+            alert(name !== null ? "Привет, " + name + "!" : "Вы не ввели имя!");
+        }
+        
+        function showCombined() {
+            let age = prompt("Сколько вам лет?");
+            if (age >= 18) {
+                let isAdult = confirm("Вы совершеннолетний. Продолжить?");
+                alert(isAdult ? "Добро пожаловать!" : "До свидания!");
+            } else {
+                alert("Извините, вам нет 18 лет!");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Комплексный JavaScript</h1>
+    
+    <!-- Раздел 1: Способы внедрения JS -->
+    <section>
+        <h2>1. Способы внедрения JavaScript</h2>
+        
+        <h3>1.1 Встроенный скрипт (inline)</h3>
+        <button onclick="alert('Это встроенный JavaScript!')">Нажми</button>
+        
+        <h3>1.2 Внутренний скрипт (internal)</h3>
+        <button onclick="internalFunction()">Нажми</button>
+        
+        <h3>1.3 Внешний скрипт (external)</h3>
+        <button onclick="externalFunction()">Нажми</button>
+        
+        <h3>1.4 JavaScript в URL</h3>
+        <a href="javascript:alert('JavaScript выполнен из URL!')">Нажми на ссылку</a>
+    </section>
+    
+    <!-- Раздел 2: Операторы JavaScript -->
+    <section>
+        <h2>2. Операторы JavaScript</h2>
+        <button onclick="demoOperators()">Демонстрация всех операторов</button>
+        <p>Эта кнопка последовательно продемонстрирует работу всех операторов: if, switch, for, while, do-while, break, continue, return.</p>
+    </section>
+    
+    <!-- Раздел 3: Диалоговые окна -->
+    <section>
+        <h2>3. Диалоговые окна</h2>
+        
+        <button onclick="showAlert()">alert()</button>
+        <button onclick="showConfirm()">confirm()</button>
+        <button onclick="showPrompt()">prompt()</button>
+        <button onclick="showCombined()">Комбинированный пример</button>
+    </section>
+</body>
+</html>

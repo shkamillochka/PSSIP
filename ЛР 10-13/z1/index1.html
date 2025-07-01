@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Текущий день месяца</title>
+    <style>
+        /* Стили для кнопки */
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #4CAF50; /* Зелёный цвет */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease; /* Плавная анимация */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень */
+        }
+
+        /* Анимация при наведении */
+        button:hover {
+            background-color: #45a049; /* Темнее зелёный */
+            transform: translateY(-2px); /* Лёгкий подъём */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Увеличенная тень */
+        }
+
+        /* Анимация при нажатии */
+        button:active {
+            transform: translateY(1px); /* Эффект нажатия */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Уменьшенная тень */
+        }
+    </style>
+    <script>
+        function showCurrentDay() {
+            const currentDate = new Date();
+            const dayOfMonth = currentDate.getDate();
+            alert("Сегодня " + dayOfMonth + " число месяца");
+        }
+    </script>
+</head>
+<body>
+    <button onclick="showCurrentDay()">Показать год</button>
+</body>
+</html>

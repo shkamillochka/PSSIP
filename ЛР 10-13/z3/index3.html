@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Работа с массивами</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .result {
+            background-color: #f0f8ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // 1. Создаем массив из 5 целых чисел
+        let numbers = [3, -2, 8, -5, 4];
+        
+        // 2. Находим сумму положительных элементов
+        let sumPositives = 0;
+        for (let num of numbers) {
+            if (num > 0) {
+                sumPositives += num;
+            }
+        }
+        
+        // 3. Создаем копию массива для сортировки (чтобы сохранить исходный)
+        let sortedNumbers = [...numbers];
+        sortedNumbers.sort((a, b) => a - b);
+        
+        // 4. Выводим результаты
+        document.write('<div class="result">');
+        document.write('<strong>Исходный массив:</strong> [' + numbers.join(', ') + ']<br>');
+        document.write('<strong>Сумма положительных элементов:</strong> ' + sumPositives + '<br>');
+        document.write('<strong>Отсортированный массив:</strong> [' + sortedNumbers.join(', ') + ']');
+        document.write('</div>');
+    </script>
+</body>
+</html>

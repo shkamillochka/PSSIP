@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Manipulation Task</title>
+    <style>
+        .container {
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .element {
+            padding: 10px;
+            margin: 5px;
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+        #element2 {
+            background-color: #dff0d8;
+        }
+        #element3 {
+            background-color: #d9edf7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Работа с DOM</h1>
+        
+        <!-- Пользовательские формы -->
+        <form id="form1">
+            <input type="text" placeholder="Форма 1">
+        </form>
+        <form id="form2">
+            <input type="email" placeholder="Форма 2">
+        </form>
+        
+        <!-- Элементы для перестановки -->
+        <div id="element1" class="element">Элемент 1 (не кликабельный)</div>
+        <div id="element2" class="element">Элемент 2 (кликните меня, чтобы поменять местами с элементом 3)</div>
+        <div id="element3" class="element">Элемент 3</div>
+    </div>
+
+    <script>
+        // 1. Получить массив всех пользовательских форм
+        function getForms() {
+            return Array.from(document.getElementsByTagName('form'));
+        }
+
+        // 2. Вывести информацию о формах через 5 секунд
+        setTimeout(() => {
+            const forms = getForms();
+            console.log('Список форм на странице:', forms);
+            
+            // Выводим информацию в alert (можно также вывести на страницу)
+            alert(`На странице найдено ${forms.length} форм:\n${forms.map(form => form.id).join(', ')}`);
+        }, 5000);
+
+        // 3. Поменять местами элементы 2 и 3 при клике на элемент 2
+        document.getElementById('element2').addEventListener('click', function() {
+            const element2 = document.getElementById('element2');
+            const element3 = document.getElementById('element3');
+            const parent = element2.parentNode;
+            
+            // Создаем временный маркер для позиции элемента 2
+            const temp = document.createElement('div');
+            parent.insertBefore(temp, element2);
+            
+            // Перемещаем элементы
+            parent.insertBefore(element2, element3);
+            parent.insertBefore(element3, temp);
+            
+            // Удаляем временный маркер
+            parent.removeChild(temp);
+            
+            console.log('Элементы 2 и 3 поменялись местами');
+        });
+    </script>
+</body>
+</html>
