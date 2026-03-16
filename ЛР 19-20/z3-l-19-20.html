@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Задание №3 — Local Storage</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700&family=Geologica:wght@300;400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f0ece4;
+    --surface: #ffffff;
+    --border: #d8d2c8;
+    --accent: #2d5016;
+    --accent-light: #4a7a26;
+    --accent-muted: #e8f0df;
+    --danger: #c0392b;
+    --danger-muted: #fdf0ee;
+    --text: #1a1a1a;
+    --muted: #7a7060;
+    --storage: #2d6a8c;
+  }
+
+  body {
+    background: var(--bg);
+    font-family: 'Geologica', sans-serif;
+    min-height: 100vh;
+    padding: 2rem 1rem 5rem;
+    color: var(--text);
+  }
+
+  .page-wrap { max-width: 700px; margin: 0 auto; }
+
+  /* Header */
+  header { margin-bottom: 3rem; }
+
+  .tag {
+    display: inline-block;
+    background: var(--storage);
+    color: #fff;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--storage);
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+  /* Card */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card:nth-child(2) { animation-delay: 0.05s; }
+  .card:nth-child(3) { animation-delay: 0.1s; }
+
+  .card-header {
+    padding: 1rem 1.4rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: #fafaf8;
+  }
+
+  .card-icon { font-size: 1.1rem; }
+
+  .card-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: var(--storage);
+  }
+
+  .card-body { padding: 1.4rem; }
+
+  /* Form */
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 520px) { .field-grid { grid-template-columns: 1fr; } }
+
+  .field { display: flex; flex-direction: column; gap: 0.35rem; }
+  .field.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  input, textarea {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 0.65rem 0.85rem;
+    font-family: 'Geologica', sans-serif;
+    font-size: 0.88rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+
+  input:focus, textarea:focus {
+    border-color: var(--storage);
+    box-shadow: 0 0 0 3px #b8d4e6;
+  }
+
+  textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+
+  /* Buttons */
+  .btn-row {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+
+  .btn {
+    padding: 0.65rem 1.3rem;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-save {
+    background: var(--storage);
+    color: #fff;
+  }
+  .btn-save:hover { background: #3a7ba0; transform: translateY(-1px); }
+
+  .btn-load {
+    background: transparent;
+    color: var(--storage);
+    border: 1.5px solid var(--storage);
+  }
+  .btn-load:hover { background: #e1f0fa; }
+
+  .btn-clear {
+    background: transparent;
+    color: var(--danger);
+    border: 1.5px solid var(--danger);
+    margin-left: auto;
+  }
+  .btn-clear:hover { background: var(--danger-muted); }
+
+  /* Storage viewer */
+  .storage-viewer {
+    background: #1a1a16;
+    border-radius: 6px;
+    padding: 1.2rem 1.4rem;
+    font-family: 'Unbounded', monospace;
+    font-size: 0.72rem;
+    line-height: 1.8;
+    color: #b8c8a0;
+    min-height: 60px;
+    position: relative;
+  }
+
+  .storage-viewer .empty {
+    color: #555;
+    font-style: italic;
+    font-family: 'Geologica', sans-serif;
+  }
+
+  .storage-key { color: #7ab3cc; }
+  .storage-val { color: #d4e8b8; }
+  .storage-sep { color: #555; }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--storage);
+    color: #fff;
+    font-family: 'Geologica', sans-serif;
+    font-size: 0.82rem;
+    padding: 0.7rem 1.4rem;
+    border-radius: 99px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(.22,1,.36,1);
+    white-space: nowrap;
+    z-index: 999;
+  }
+
+  .toast.danger { background: var(--danger); }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Info box */
+  .info-box {
+    background: #d9eaf5;
+    border-left: 3px solid var(--storage);
+    border-radius: 0 5px 5px 0;
+    padding: 0.75rem 1rem;
+    font-size: 0.78rem;
+    color: #1a4d6b;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .info-box code {
+    font-family: monospace;
+    background: rgba(0,0,0,0.08);
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <header>
+    <div class="tag">Задание №3</div>
+    <h1>Работа с Local Storage в JS</h1>
+    <p class="subtitle">Введите личные данные → сохраните в Local Storage → прочитайте → очистите</p>
+  </header>
+
+  <!-- Form card -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">📝</span>
+      <span class="card-title">Личные данные</span>
+    </div>
+    <div class="card-body">
+      <div class="field-grid">
+
+        <div class="field full">
+          <label for="fullName">ФИО</label>
+          <input type="text" id="fullName" placeholder="Иванов Иван Иванович">
+        </div>
+
+        <div class="field">
+          <label for="email">Электронная почта</label>
+          <input type="email" id="email" placeholder="ivanov@mail.ru">
+        </div>
+
+        <div class="field">
+          <label for="birthDate">Дата рождения</label>
+          <input type="date" id="birthDate">
+        </div>
+
+        <div class="field">
+          <label for="birthPlace">Место рождения</label>
+          <input type="text" id="birthPlace" placeholder="г. Минск">
+        </div>
+
+        <div class="field">
+          <label for="hobbies">Увлечения</label>
+          <textarea id="hobbies" placeholder="Программирование, чтение, спорт..."></textarea>
+        </div>
+
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-save" onclick="saveDataToStorage()">💾 Сохранить в Local Storage</button>
+        <button class="btn btn-load" onclick="loadDataFromStorage()">📂 Загрузить из Local Storage</button>
+        <button class="btn btn-clear" onclick="clearAllStorage()">🗑 Очистить Local Storage</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Storage viewer card -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">💾</span>
+      <span class="card-title">Содержимое Local Storage</span>
+    </div>
+    <div class="card-body">
+      <div class="info-box">
+        Ниже отображается содержимое <code>localStorage</code> в реальном времени. Нажмите <strong>«Сохранить»</strong>, чтобы увидеть данные.
+      </div>
+      <div class="storage-viewer" id="storageViewer">
+        <span class="empty">Local Storage пуст — введите данные и нажмите «Сохранить»</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ─── Local Storage helpers ────────────────────────────────────────────────────
+
+  // Ключ для хранения всех данных одним объектом (удобнее, чем множество ключей)
+  const STORAGE_KEY = 'user_profile_data';
+
+  /**
+   * Сохраняет объект с данными пользователя в localStorage
+   * @param {Object} data - объект вида { fullName, email, birthDate, birthPlace, hobbies }
+   */
+  function saveUserData(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  /**
+   * Загружает объект с данными пользователя из localStorage
+   * @returns {Object|null} - объект с данными или null, если данных нет
+   */
+  function loadUserData() {
+    const data = localStorage.getItem(STORAGE_KEY);
+    return data ? JSON.parse(data) : null;
+  }
+
+  /**
+   * Удаляет данные пользователя из localStorage
+   */
+  function clearUserData() {
+    localStorage.removeItem(STORAGE_KEY);
+  }
+
+  // ─── Field config ─────────────────────────────────────────────────────────────
+
+  const FORM_FIELDS = [
+    { key: 'fullName',   inputId: 'fullName'   },
+    { key: 'email',      inputId: 'email'      },
+    { key: 'birthDate',  inputId: 'birthDate'  },
+    { key: 'birthPlace', inputId: 'birthPlace' },
+    { key: 'hobbies',    inputId: 'hobbies'    },
+  ];
+
+  // ─── Actions ──────────────────────────────────────────────────────────────────
+
+  function saveDataToStorage() {
+    const fullName = document.getElementById('fullName').value.trim();
+
+    if (!fullName) {
+      showToast('Введите хотя бы ФИО', 'danger');
+      return;
+    }
+
+    // Собираем данные из формы в объект
+    const userData = {};
+    for (const field of FORM_FIELDS) {
+      userData[field.key] = document.getElementById(field.inputId).value.trim();
+    }
+
+    // Сохраняем весь объект одной записью в localStorage
+    saveUserData(userData);
+    
+    renderStorageViewer();
+    showToast('Данные сохранены в Local Storage');
+  }
+
+  function loadDataFromStorage() {
+    const userData = loadUserData();
+
+    if (!userData) {
+      showToast('Данные в Local Storage не найдены', 'danger');
+      renderStorageViewer();
+      return;
+    }
+
+    let loadedCount = 0;
+    for (const field of FORM_FIELDS) {
+      if (userData[field.key] !== undefined && userData[field.key] !== '') {
+        document.getElementById(field.inputId).value = userData[field.key];
+        loadedCount++;
+      }
+    }
+
+    renderStorageViewer();
+    showToast(`Загружено полей: ${loadedCount}`);
+  }
+
+  function clearAllStorage() {
+    clearUserData();
+
+    // Очищаем поля формы
+    for (const field of FORM_FIELDS) {
+      document.getElementById(field.inputId).value = '';
+    }
+
+    renderStorageViewer();
+    showToast('Local Storage очищен');
+  }
+
+  // ─── UI helpers ───────────────────────────────────────────────────────────────
+
+  function renderStorageViewer() {
+    const viewer = document.getElementById('storageViewer');
+    const userData = loadUserData();
+
+    if (!userData || Object.keys(userData).length === 0) {
+      viewer.innerHTML = '<span class="empty">Local Storage пуст</span>';
+      return;
+    }
+
+    // Показываем содержимое localStorage в красиво оформленном виде
+    const lines = Object.entries(userData)
+      .filter(([_, value]) => value && value.trim() !== '') // только непустые поля
+      .map(([key, value]) => {
+        return `<span class="storage-key">${key}</span><span class="storage-sep"> = </span><span class="storage-val">${value}</span>`;
+      });
+
+    viewer.innerHTML = lines.length
+      ? lines.join('<br>')
+      : '<span class="empty">Нет данных</span>';
+  }
+
+  let toastTimer = null;
+
+  function showToast(message, type = '') {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.className = `toast ${type} show`;
+
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.remove('show');
+    }, 2500);
+  }
+
+  // ─── Init ─────────────────────────────────────────────────────────────────────
+
+  // Автоматически загружаем данные при старте, если они есть
+  function initFormFromStorage() {
+    const userData = loadUserData();
+    if (userData) {
+      for (const field of FORM_FIELDS) {
+        if (userData[field.key]) {
+          document.getElementById(field.inputId).value = userData[field.key];
+        }
+      }
+    }
+  }
+
+  // Render any existing data on page load
+  renderStorageViewer();
+  initFormFromStorage();
+</script>
+</body>
+</html>

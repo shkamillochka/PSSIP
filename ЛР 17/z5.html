@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll Events</title>
+    <style>
+        .scroll-container {
+            padding: 20px;
+            margin: 20px;
+            border: 2px solid #f1c40f;
+            border-radius: 10px;
+            background: #f8f9fa;
+        }
+        .scroll-content {
+            height: 400px;
+            overflow-y: scroll;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            padding: 20px;
+            background: linear-gradient(180deg, #ecf0f1, #bdc3c7);
+        }
+        .scroll-section {
+            height: 800px;
+            padding: 20px;
+        }
+        .section {
+            height: 350px;
+            margin: 15px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border-left: 5px solid #3498db;
+        }
+        .scroll-info {
+            padding: 15px;
+            background: #34495e;
+            color: white;
+            border-radius: 8px;
+            margin-top: 15px;
+            position: sticky;
+            top: 10px;
+        }
+        .progress-bar {
+            height: 5px;
+            background: #e74c3c;
+            width: 0%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transition: width 0.1s;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <div class="scroll-container">
+        <h2>5. События прокрутки</h2>
+        <div class="scroll-info" id="scrollInfo">Информация о прокрутке...</div>
+        <div class="scroll-content" id="scrollContent">
+            <div class="scroll-section">
+                <div class="section">Секция 1</div>
+                <div class="section">Секция 2</div>
+                <div class="section">Секция 3</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const scrollContent = document.getElementById('scrollContent');
+        const scrollInfo = document.getElementById('scrollInfo');
+        const progressBar = document.getElementById('progressBar');
+
+        let scrollTimeout;
+        let lastScrollTop = 0;
+
+        scrollContent.addEventListener('scroll', function() {
+            const scrollTop = this.scrollTop;
+            const scrollHeight = this.scrollHeight - this.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+
+            // Прогресс бар
+            progressBar.style.width = scrollPercent + '%';
+
+            // Определение направления
+            const direction = scrollTop > lastScrollTop ? 'вниз' : 'вверх';
+            lastScrollTop = scrollTop;
+
+            // Определение текущей секции
+            const sections = document.querySelectorAll('.section');
+            let currentSection = 0;
+            sections.forEach((section, index) => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150) currentSection = index + 1;
+            });
+
+            scrollInfo.innerHTML = `
+                Прокрутка: ${Math.round(scrollPercent)}%
+                Направление: ${direction}
+                Текущая секция: ${currentSection}
+                Позиция: ${scrollTop}px
+            `;
+
+            // Визуальная обратная связь
+            scrollInfo.style.background = '#e74c3c';
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                scrollInfo.style.background = '#34495e';
+            }, 200);
+        });
+
+        // Плавная прокрутка к секциям
+        document.querySelectorAll('.section').forEach((section, index) => {
+            section.addEventListener('click', () => {
+                scrollContent.scrollTo({
+                    top: index * 400,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

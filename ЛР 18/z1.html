@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пользовательская форма</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        body {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffe6f2 0%, #ffcce6 100%);
+            color: #5a2d47;
+            min-height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            color: #8a2a62;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
+            font-weight: 700;
+            font-size: 32px;
+        }
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(190, 90, 140, 0.2);
+            border: 1px solid #ffb3d9;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ffd9ec;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #8a2a62;
+            font-size: 16px;
+        }
+        input[type="text"], input[type="email"], select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ffb3d9;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #fff9fc;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
+        input[type="text"]:focus, input[type="email"]:focus, select:focus {
+            outline: none;
+            border-color: #e60073;
+            box-shadow: 0 0 0 2px rgba(230, 0, 115, 0.2);
+        }
+        .checkbox-group, .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .checkbox-item, .radio-item {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        .checkbox-item input, .radio-item input {
+            margin-right: 8px;
+            accent-color: #e60073;
+        }
+        .checkbox-item label, .radio-item label {
+            font-weight: 500;
+            margin-bottom: 0;
+        }
+        button {
+            background: linear-gradient(to bottom, #ff66b2, #e60073);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-right: 10px;
+            box-shadow: 0 4px 8px rgba(230, 0, 115, 0.3);
+            font-family: 'Montserrat', sans-serif;
+        }
+        button:hover {
+            background: linear-gradient(to bottom, #ff4da6, #cc0066);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(230, 0, 115, 0.4);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        #resetBtn {
+            background: linear-gradient(to bottom, #ff99cc, #ff4da6);
+        }
+        #resetBtn:hover {
+            background: linear-gradient(to bottom, #ff80bf, #ff3399);
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+        }
+        .output-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            border-left: 5px solid #e60073;
+            box-shadow: 0 4px 10px rgba(190, 90, 140, 0.2);
+        }
+        .output-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #8a2a62;
+            font-size: 18px;
+        }
+        .output-data {
+            white-space: pre-wrap;
+            background-color: #fff9fc;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ffb3d9;
+            min-height: 120px;
+            color: #5a2d47;
+            font-family: 'Montserrat', monospace;
+            font-weight: 500;
+        }
+        .decoration {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .heart {
+            color: #ff4da6;
+            font-size: 24px;
+            margin: 0 5px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <h1>Заполните форму</h1>
+    
+    <div class="form-container">
+        <form id="userForm">
+            <!-- Текстовые поля -->
+            <div class="form-group">
+                <label for="name">Имя:</label>
+                <input type="text" id="name" name="name" placeholder="Введите ваше имя">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Введите ваш email">
+            </div>
+            
+            <!-- Список -->
+            <div class="form-group">
+                <label for="country">Страна:</label>
+                <select id="country" name="country">
+                    <option value="">Выберите страну</option>
+                    <option value="Россия">Россия</option>
+                    <option value="Беларусь">Беларусь</option>
+                    <option value="Казахстан">Казахстан</option>
+                    <option value="Другая">Другая</option>
+                </select>
+            </div>
+            
+            <!-- Переключатели -->
+            <div class="form-group">
+                <label>Пол:</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="male" name="gender" value="Мужской">
+                        <label for="male">Мужской</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="female" name="gender" value="Женский">
+                        <label for="female">Женский</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="other" name="gender" value="Другой">
+                        <label for="other">Другой</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Флажки -->
+            <div class="form-group">
+                <label>Интересы:</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="sports" name="interests" value="Спорт">
+                        <label for="sports">Спорт</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="music" name="interests" value="Музыка">
+                        <label for="music">Музыка</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="books" name="interests" value="Книги">
+                        <label for="books">Книги</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="travel" name="interests" value="Путешествия">
+                        <label for="travel">Путешествия</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="tech" name="interests" value="Технологии">
+                        <label for="tech">Технологии</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Кнопки -->
+            <div class="button-group">
+                <button type="button" id="submitBtn">Отправить данные</button>
+                <button type="button" id="resetBtn">Сбросить форму</button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="output-container">
+        <div class="output-title">Извлеченные данные:</div>
+        <div class="output-data" id="outputData">Здесь будут отображены данные из формы</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const submitBtn = document.getElementById('submitBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const outputData = document.getElementById('outputData');
+            const form = document.getElementById('userForm');
+            
+            // Функция для извлечения данных из формы
+            function extractFormData() {
+                // Получение значений из текстовых полей
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                
+                // Получение значения из списка
+                const country = document.getElementById('country').value;
+                
+                // Получение значения из переключателей
+                let gender = '';
+                const genderRadios = document.getElementsByName('gender');
+                for (const radio of genderRadios) {
+                    if (radio.checked) {
+                        gender = radio.value;
+                        break;
+                    }
+                }
+                
+                // Получение значений из флажков
+                const interestsCheckboxes = document.getElementsByName('interests');
+                const selectedInterests = [];
+                for (const checkbox of interestsCheckboxes) {
+                    if (checkbox.checked) {
+                        selectedInterests.push(checkbox.value);
+                    }
+                }
+                
+                // Формирование строки с результатами
+                let result = `Имя: ${name || 'Не указано'}\n`;
+                result += `Email: ${email || 'Не указан'}\n`;
+                result += `Страна: ${country || 'Не выбрана'}\n`;
+                result += `Пол: ${gender || 'Не выбран'}\n`;
+                result += `Интересы: ${selectedInterests.length > 0 ? selectedInterests.join(', ') : 'Не выбраны'}`;
+                
+                return result;
+            }
+            
+            // Обработчик для кнопки отправки
+            submitBtn.addEventListener('click', function() {
+                const formData = extractFormData();
+                outputData.textContent = formData;
+                
+                // Также можно показать данные в диалоговом окне
+                alert("Данные из формы:\n\n" + formData);
+            });
+            
+            // Обработчик для кнопки сброса
+            resetBtn.addEventListener('click', function() {
+                form.reset();
+                outputData.textContent = 'Здесь будут отображены данные из формы';
+            });
+        });
+    </script>
+</body>
+</html>

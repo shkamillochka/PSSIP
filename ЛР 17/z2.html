@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>События клавиатуры</title>
+    <style>
+        .keyboard-events {
+            padding: 20px;
+            margin: 20px;
+            border: 2px solid #2ecc71;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+        }
+        
+        .input-field {
+            width: 300px;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #bdc3c7;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+        
+        .key-info {
+            padding: 15px;
+            background-color: #34495e;
+            color: white;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .key-pressed {
+            background-color: #e74c3c !important;
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <div class="keyboard-events">
+        <h2>События клавиатуры</h2>
+        
+        <input type="text" class="input-field" id="keyboardInput" 
+               placeholder="Введите текст здесь...">
+        
+        <div class="key-info" id="keyInfo">
+            Информация о нажатых клавишах:
+        </div>
+        
+        <div class="key-grid" id="keyGrid">
+            <!-- Клавиши будут добавлены через JS -->
+        </div>
+    </div>
+
+    <script>
+        const keyboardInput = document.getElementById('keyboardInput');
+        const keyInfo = document.getElementById('keyInfo');
+        const keyGrid = document.getElementById('keyGrid');
+        
+        // Создаем визуальную клавиатуру
+        const keys = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 
+                     'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
+                     'Enter', 'Space', 'Shift', 'Ctrl', 'Alt'];
+        
+        keys.forEach(key => {
+            const keyElement = document.createElement('div');
+            keyElement.className = 'key';
+            keyElement.textContent = key;
+            keyElement.style.cssText = `
+                display: inline-block;
+                padding: 10px;
+                margin: 5px;
+                background-color: #95a5a6;
+                color: white;
+                border-radius: 4px;
+                cursor: pointer;
+                min-width: 40px;
+                text-align: center;
+                transition: all 0.1s ease;
+            `;
+            keyGrid.appendChild(keyElement);
+        });
+        
+        // События клавиатуры
+        keyboardInput.addEventListener('keydown', function(e) {
+            const info = `
+                Key: ${e.key}, 
+                Code: ${e.code}, 
+                KeyCode: ${e.keyCode}, 
+                Shift: ${e.shiftKey}, 
+                Ctrl: ${e.ctrlKey}, 
+                Alt: ${e.altKey}
+            `;
+            keyInfo.textContent = 'KeyDown: ' + info;
+            
+            // Подсветка клавиши
+            highlightKey(e.key);
+        });
+        
+        keyboardInput.addEventListener('keyup', function(e) {
+            keyInfo.textContent += '\nKeyUp: Клавиша отпущена';
+        });
+        
+        keyboardInput.addEventListener('keypress', function(e) {
+            keyInfo.textContent += '\nKeyPress: Символ введен';
+        });
+        
+        function highlightKey(key) {
+            const keyElements = document.querySelectorAll('.key');
+            keyElements.forEach(el => {
+                el.classList.remove('key-pressed');
+                if (el.textContent.toLowerCase() === key.toLowerCase()) {
+                    el.classList.add('key-pressed');
+                    setTimeout(() => {
+                        el.classList.remove('key-pressed');
+                    }, 100);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

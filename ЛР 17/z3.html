@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag & Drop</title>
+    <style>
+        .drag-drop-container {
+            padding: 20px;
+            margin: 20px;
+            border: 2px solid #e67e22;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+        }
+        
+        .drag-item {
+            width: 100px;
+            height: 100px;
+            background-color: #3498db;
+            margin: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: grab;
+            border-radius: 8px;
+            user-select: none;
+        }
+        
+        .drop-zone {
+            width: 300px;
+            height: 200px;
+            border: 3px dashed #7f8c8d;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .dragging {
+            opacity: 0.5;
+            transform: scale(1.1);
+        }
+        
+        .drop-zone.drag-over {
+            background-color: #d5f4e6;
+            border-color: #2ecc71;
+        }
+    </style>
+</head>
+<body>
+    <div class="drag-drop-container">
+        <h2>Drag & Drop события</h2>
+        
+        <div class="drag-items">
+            <div class="drag-item" draggable="true" id="drag1">Элемент 1</div>
+            <div class="drag-item" draggable="true" id="drag2">Элемент 2</div>
+            <div class="drag-item" draggable="true" id="drag3">Элемент 3</div>
+        </div>
+        
+        <div class="drop-zone" id="dropZone">
+            Перетащите элементы сюда
+        </div>
+        
+        <div id="dragStatus">Готов к перетаскиванию</div>
+    </div>
+
+    <script>
+        const dragItems = document.querySelectorAll('.drag-item');
+        const dropZone = document.getElementById('dropZone');
+        const dragStatus = document.getElementById('dragStatus');
+        
+        let draggedItem = null;
+        
+        // События для перетаскиваемых элементов
+        dragItems.forEach(item => {
+            // Начало перетаскивания
+            item.addEventListener('dragstart', function(e) {
+                draggedItem = this;
+                this.classList.add('dragging');
+                e.dataTransfer.setData('text/plain', this.id);
+                dragStatus.textContent = 'Начато перетаскивание: ' + this.textContent;
+            });
+            
+            // Конец перетаскивания
+            item.addEventListener('dragend', function() {
+                this.classList.remove('dragging');
+                dragStatus.textContent = 'Перетаскивание завершено';
+            });
+        });
+        
+        // События для зоны сброса
+        dropZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+            dragStatus.textContent = 'Можно отпустить';
+        });
+        
+        dropZone.addEventListener('dragleave', function() {
+            this.classList.remove('drag-over');
+            dragStatus.textContent = 'Перетащите сюда';
+        });
+        
+        dropZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+            
+            const id = e.dataTransfer.getData('text/plain');
+            const draggedElement = document.getElementById(id);
+            
+            if (draggedElement) {
+                const clone = draggedElement.cloneNode(true);
+                clone.style.transform = 'scale(1)';
+                clone.style.opacity = '1';
+                this.appendChild(clone);
+                
+                dragStatus.textContent = 'Элемент добавлен: ' + draggedElement.textContent;
+            }
+        });
+    </script>
+</body>
+</html>

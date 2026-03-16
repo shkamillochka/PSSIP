@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Touch Events</title>
+    <style>
+        .touch-container {
+            padding: 20px;
+            margin: 20px;
+            border: 2px solid #1abc9c;
+            border-radius: 10px;
+            background: #f8f9fa;
+        }
+        .touch-area {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #74b9ff, #a29bfe);
+            border-radius: 15px;
+            margin: 15px 0;
+            touch-action: none;
+            position: relative;
+        }
+        .touch-point {
+            width: 40px;
+            height: 40px;
+            background: #e74c3c;
+            border-radius: 50%;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .touch-info {
+            padding: 15px;
+            background: #2d3436;
+            color: white;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-family: monospace;
+        }
+        .gesture-result {
+            padding: 15px;
+            background: #fdcb6e;
+            color: #2d3436;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="touch-container">
+        <h2>6. Сенсорные события</h2>
+        <div class="gesture-result" id="gestureResult">Выполните жесты на области ниже</div>
+        <div class="touch-area" id="touchArea">Касайтесь этой области</div>
+        <div class="touch-info" id="touchInfo">Информация о касаниях...</div>
+    </div>
+
+    <script>
+        const touchArea = document.getElementById('touchArea');
+        const touchInfo = document.getElementById('touchInfo');
+        const gestureResult = document.getElementById('gestureResult');
+
+        let touchPoints = {};
+        let startDistance = 0;
+        let startAngle = 0;
+
+        touchArea.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            updateTouchInfo('START', e);
+            
+            Array.from(e.touches).forEach(touch => {
+                createTouchPoint(touch);
+            });
+
+            if (e.touches.length === 2) {
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                startDistance = getDistance(touch1, touch2);
+                startAngle = getAngle(touch1, touch2);
+            }
+        });
+
+        touchArea.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            updateTouchInfo('MOVE', e);
+            
+            Array.from(e.touches).forEach(touch => {
+                updateTouchPoint(touch);
+            });
+
+            if (e.touches.length === 2) {
+                detectGesture(e);
+            }
+        });
+
+        touchArea.addEventListener('touchend', (e) => {
+            updateTouchInfo('END', e);
+            Array.from(e.changedTouches).forEach(touch => {
+                removeTouchPoint(touch);
+            });
+        });
+
+        function createTouchPoint(touch) {
+            const point = document.createElement('div');
+            point.className = 'touch-point';
+            point.id = 'touch-' + touch.identifier;
+            point.style.left = touch.clientX + 'px';
+            point.style.top = touch.clientY + 'px';
+            point.textContent = touch.identifier;
+            touchArea.appendChild(point);
+            touchPoints[touch.identifier] = point;
+        }
+
+        function updateTouchPoint(touch) {
+            const point = touchPoints[touch.identifier];
+            if (point) {
+                point.style.left = touch.clientX + 'px';
+                point.style.top = touch.clientY + 'px';
+            }
+        }
+
+        function removeTouchPoint(touch) {
+            const point = touchPoints[touch.identifier];
+            if (point) {
+                point.remove();
+                delete touchPoints[touch.identifier];
+            }
+        }
+
+        function detectGesture(e) {
+            const touch1 = e.touches[0];
+            const touch2 = e.touches[1];
+            const currentDistance = getDistance(touch1, touch2);
+            const currentAngle = getAngle(touch1, touch2);
+
+            if (Math.abs(currentDistance - startDistance) > 10) {
+                gestureResult.textContent = currentDistance > startDistance ? 
+                    'Жест: Увеличение' : 'Жест: Уменьшение';
+            }
+
+            if (Math.abs(currentAngle - startAngle) > 5) {
+                gestureResult.textContent = 'Жест: Вращение';
+            }
+        }
+
+        function getDistance(t1, t2) {
+            return Math.sqrt(Math.pow(t2.clientX - t1.clientX, 2) + Math.pow(t2.clientY - t1.clientY, 2));
+        }
+
+        function getAngle(t1, t2) {
+            return Math.atan2(t2.clientY - t1.clientY, t2.clientX - t1.clientX) * 180 / Math.PI;
+        }
+
+        function updateTouchInfo(eventType, event) {
+            const touches = Array.from(event.touches).map(t => 
+                `ID:${t.identifier} (${Math.round(t.clientX)},${Math.round(t.clientY)})`
+            ).join('\n');
+
+            touchInfo.innerHTML = `
+                Событие: touch${eventType}
+                Касаний: ${event.touches.length}
+                ${touches}
+            `;
+        }
+    </script>
+</body>
+</html>

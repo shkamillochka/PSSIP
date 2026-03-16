@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Валидация пользовательских форм</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        body {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #002244;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+        h2 {
+            text-align: left;
+            margin-top: 40px;
+            color: #000000;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .form-container {
+            background-color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #0b1c2e;
+            font-size: 16px;
+        }
+        input[type="text"], input[type="email"], input[type="tel"], input[type="password"], select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
+        input:valid {
+            border-color: #2ecc71;
+        }
+        input:invalid {
+            border-color: #e74c3c;
+        }
+        input:focus {
+            outline: none;
+            border-color: #1a3b51;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        button {
+            background: linear-gradient(to bottom, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-right: 10px;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+            font-family: 'Montserrat', sans-serif;
+        }
+        button:hover {
+            background: linear-gradient(to bottom, #2980b9, #2573a7);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(52, 152, 219, 0.4);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        #resetBtn {
+            background: linear-gradient(to bottom, #e74c3c, #c0392b);
+        }
+        #resetBtn:hover {
+            background: linear-gradient(to bottom, #c0392b, #a93226);
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+        }
+        .output-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .output-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 18px;
+        }
+        .output-data {
+            white-space: pre-wrap;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            min-height: 120px;
+            color: #2c3e50;
+            font-family: 'Montserrat', monospace;
+            font-weight: 500;
+        }
+        .method-description {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        .validation-section {
+            margin-bottom: 40px;
+        }
+        .success {
+            color: #2ecc71;
+            font-weight: 600;
+        }
+        .error-message {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <h1>Валидация пользовательских форм</h1>
+    
+    <div class="validation-section">
+        <h2>1. Валидация через атрибуты HTML5</h2>
+        <div class="method-description">
+            <p>Используются встроенные атрибуты HTML5 для проверки данных:</p>
+            <ul>
+                <li><code>required</code> - обязательное поле</li>
+                <li><code>pattern</code> - проверка по регулярному выражению</li>
+                <li><code>minlength</code>, <code>maxlength</code> - минимальная и максимальная длина</li>
+                <li><code>type="email"</code>, <code>type="tel"</code> - проверка формата</li>
+            </ul>
+        </div>
+        
+        <div class="form-container">
+            <form id="html5Form" novalidate>
+                <div class="form-group">
+                    <label for="htmlName">Имя (обязательно, минимум 2 символа):</label>
+                    <input type="text" id="htmlName" name="htmlName" required minlength="2" maxlength="30">
+                    <div class="error" id="htmlNameError">Поле обязательно для заполнения (минимум 2 символа)</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="htmlEmail">Email (обязательно, правильный формат):</label>
+                    <input type="email" id="htmlEmail" name="htmlEmail" required>
+                    <div class="error" id="htmlEmailError">Введите корректный email адрес</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="htmlPhone">Телефон (формат: +7-XXX-XXX-XX-XX):</label>
+                    <input type="tel" id="htmlPhone" name="htmlPhone" pattern="\+7-[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}" placeholder="+7-XXX-XXX-XX-XX">
+                    <div class="error" id="htmlPhoneError">Телефон должен быть в формате: +7-XXX-XXX-XX-XX</div>
+                </div>
+                
+                <div class="button-group">
+                    <button type="button" id="validateHtml5Btn">Проверить HTML5 валидацию</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="validation-section">
+        <h2>2. Валидация через JavaScript</h2>
+        <div class="method-description">
+            <p>Проверка данных с помощью JavaScript с различными проверками:</p>
+            <ul>
+                <li>Проверка на пустые поля</li>
+                <li>Проверка формата данных (email, телефон)</li>
+                <li>Проверка наличия определенных символов</li>
+                <li>Проверка минимальной и максимальной длины</li>
+            </ul>
+        </div>
+        
+        <div class="form-container">
+            <form id="jsForm">
+                <div class="form-group">
+                    <label for="jsName">Имя (только буквы, 2-30 символов):</label>
+                    <input type="text" id="jsName" name="jsName">
+                    <div class="error" id="jsNameError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="jsEmail">Email (правильный формат):</label>
+                    <input type="text" id="jsEmail" name="jsEmail">
+                    <div class="error" id="jsEmailError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="jsPassword">Пароль (минимум 8 символов, буквы и цифры):</label>
+                    <input type="password" id="jsPassword" name="jsPassword">
+                    <div class="error" id="jsPasswordError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="jsAge">Возраст (только цифры, 18-99):</label>
+                    <input type="text" id="jsAge" name="jsAge">
+                    <div class="error" id="jsAgeError"></div>
+                </div>
+                
+                <div class="button-group">
+                    <button type="button" id="validateJsBtn">Проверить JS валидацию</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="validation-section">
+        <h2>3. Комбинированная валидация</h2>
+        <div class="method-description">
+            <p>Сочетание HTML5 и JavaScript валидации для максимальной надежности:</p>
+            <ul>
+                <li>Базовые проверки через HTML5 атрибуты</li>
+                <li>Дополнительные проверки через JavaScript</li>
+                <li>Кастомные сообщения об ошибках</li>
+            </ul>
+        </div>
+        
+        <div class="form-container">
+            <form id="combinedForm" novalidate>
+                <div class="form-group">
+                    <label for="combinedName">Имя (обязательно, только буквы):</label>
+                    <input type="text" id="combinedName" name="combinedName" required pattern="[A-Za-zА-Яа-яЁё\s]+">
+                    <div class="error" id="combinedNameError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="combinedEmail">Email (обязательно, правильный формат):</label>
+                    <input type="email" id="combinedEmail" name="combinedEmail" required>
+                    <div class="error" id="combinedEmailError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="combinedWebsite">Веб-сайт (должен начинаться с http:// или https://):</label>
+                    <input type="text" id="combinedWebsite" name="combinedWebsite" pattern="https?://.+" placeholder="https://example.com">
+                    <div class="error" id="combinedWebsiteError"></div>
+                </div>
+                
+                <div class="button-group">
+                    <button type="button" id="validateCombinedBtn">Проверить комбинированную валидацию</button>
+                    <button type="button" id="resetBtn">Сбросить все формы</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="output-container">
+        <div class="output-title">Результаты валидации:</div>
+        <div class="output-data" id="outputData">Здесь будут отображены результаты проверки форм</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const outputData = document.getElementById('outputData');
+            
+            // 1. HTML5 Валидация
+            document.getElementById('validateHtml5Btn').addEventListener('click', function() {
+                const nameField = document.getElementById('htmlName');
+                const emailField = document.getElementById('htmlEmail');
+                const phoneField = document.getElementById('htmlPhone');
+                
+                // Сброс предыдущих ошибок
+                hideAllErrors('html');
+                
+                let isValid = true;
+                let result = "=== HTML5 ВАЛИДАЦИЯ ===\n\n";
+                
+                // Проверка имени
+                if (!nameField.validity.valid) {
+                    showError('htmlNameError');
+                    result += "Имя: " + getHtml5ValidationMessage(nameField) + "\n";
+                    isValid = false;
+                } else {
+                    result += "✅ Имя: корректно\n";
+                }
+                
+                // Проверка email
+                if (!emailField.validity.valid) {
+                    showError('htmlEmailError');
+                    result += "Email: " + getHtml5ValidationMessage(emailField) + "\n";
+                    isValid = false;
+                } else {
+                    result += "Email: корректно\n";
+                }
+                
+                // Проверка телефона (если заполнено)
+                if (phoneField.value && !phoneField.validity.valid) {
+                    showError('htmlPhoneError');
+                    result += "Телефон: " + getHtml5ValidationMessage(phoneField) + "\n";
+                    isValid = false;
+                } else if (phoneField.value) {
+                    result += "Телефон: корректно\n";
+                } else {
+                    result += "Телефон: не заполнено (не обязательно)\n";
+                }
+                
+                result += isValid ? "\nВсе проверки пройдены успешно!" : "\n❌ Обнаружены ошибки в форме";
+                outputData.textContent = result;
+            });
+            
+            // 2. JavaScript Валидация
+            document.getElementById('validateJsBtn').addEventListener('click', function() {
+                const nameField = document.getElementById('jsName');
+                const emailField = document.getElementById('jsEmail');
+                const passwordField = document.getElementById('jsPassword');
+                const ageField = document.getElementById('jsAge');
+                
+                // Сброс предыдущих ошибок
+                hideAllErrors('js');
+                
+                let isValid = true;
+                let result = "=== JAVASCRIPT ВАЛИДАЦИЯ ===\n\n";
+                
+                // Проверка имени
+                const nameValidation = validateName(nameField.value);
+                if (!nameValidation.isValid) {
+                    showError('jsNameError', nameValidation.message);
+                    result += "Имя: " + nameValidation.message + "\n";
+                    isValid = false;
+                } else {
+                    result += "Имя: корректно\n";
+                }
+                
+                // Проверка email
+                const emailValidation = validateEmail(emailField.value);
+                if (!emailValidation.isValid) {
+                    showError('jsEmailError', emailValidation.message);
+                    result += "Email: " + emailValidation.message + "\n";
+                    isValid = false;
+                } else {
+                    result += "Email: корректно\n";
+                }
+                
+                // Проверка пароля
+                const passwordValidation = validatePassword(passwordField.value);
+                if (!passwordValidation.isValid) {
+                    showError('jsPasswordError', passwordValidation.message);
+                    result += "Пароль: " + passwordValidation.message + "\n";
+                    isValid = false;
+                } else {
+                    result += "Пароль: корректно\n";
+                }
+                
+                // Проверка возраста
+                const ageValidation = validateAge(ageField.value);
+                if (!ageValidation.isValid) {
+                    showError('jsAgeError', ageValidation.message);
+                    result += "Возраст: " + ageValidation.message + "\n";
+                    isValid = false;
+                } else {
+                    result += "Возраст: корректно\n";
+                }
+                
+                result += isValid ? "\nВсе проверки пройдены успешно!" : "\n❌ Обнаружены ошибки в форме";
+                outputData.textContent = result;
+            });
+            
+            // 3. Комбинированная валидация
+            document.getElementById('validateCombinedBtn').addEventListener('click', function() {
+                const nameField = document.getElementById('combinedName');
+                const emailField = document.getElementById('combinedEmail');
+                const websiteField = document.getElementById('combinedWebsite');
+                
+                // Сброс предыдущих ошибок
+                hideAllErrors('combined');
+                
+                let isValid = true;
+                let result = "=== КОМБИНИРОВАННАЯ ВАЛИДАЦИЯ ===\n\n";
+                
+                // Проверка имени (HTML5 + дополнительная JS проверка)
+                if (!nameField.validity.valid) {
+                    const message = getHtml5ValidationMessage(nameField);
+                    showError('combinedNameError', message);
+                    result += "Имя: " + message + "\n";
+                    isValid = false;
+                } else {
+                    // Дополнительная JS проверка
+                    const nameValidation = validateName(nameField.value);
+                    if (!nameValidation.isValid) {
+                        showError('combinedNameError', nameValidation.message);
+                        result += "Имя: " + nameValidation.message + "\n";
+                        isValid = false;
+                    } else {
+                        result += "Имя: корректно\n";
+                    }
+                }
+                
+                // Проверка email (HTML5 + дополнительная JS проверка)
+                if (!emailField.validity.valid) {
+                    const message = getHtml5ValidationMessage(emailField);
+                    showError('combinedEmailError', message);
+                    result += "Email: " + message + "\n";
+                    isValid = false;
+                } else {
+                    // Дополнительная JS проверка
+                    const emailValidation = validateEmail(emailField.value);
+                    if (!emailValidation.isValid) {
+                        showError('combinedEmailError', emailValidation.message);
+                        result += "Email: " + emailValidation.message + "\n";
+                        isValid = false;
+                    } else {
+                        result += "Email: корректно\n";
+                    }
+                }
+                
+                // Проверка веб-сайта (HTML5 + дополнительная JS проверка)
+                if (websiteField.value && !websiteField.validity.valid) {
+                    const message = getHtml5ValidationMessage(websiteField);
+                    showError('combinedWebsiteError', message);
+                    result += "Веб-сайт: " + message + "\n";
+                    isValid = false;
+                } else if (websiteField.value) {
+                    // Дополнительная JS проверка
+                    const websiteValidation = validateWebsite(websiteField.value);
+                    if (!websiteValidation.isValid) {
+                        showError('combinedWebsiteError', websiteValidation.message);
+                        result += "Веб-сайт: " + websiteValidation.message + "\n";
+                        isValid = false;
+                    } else {
+                        result += "Веб-сайт: корректно\n";
+                    }
+                } else {
+                    result += "Веб-сайт: не заполнено (не обязательно)\n";
+                }
+                
+                result += isValid ? "\n Все проверки пройдены успешно!" : "\n❌ Обнаружены ошибки в форме";
+                outputData.textContent = result;
+            });
+            
+            // Сброс всех форм
+            document.getElementById('resetBtn').addEventListener('click', function() {
+                document.getElementById('html5Form').reset();
+                document.getElementById('jsForm').reset();
+                document.getElementById('combinedForm').reset();
+                hideAllErrors();
+                outputData.textContent = 'Все формы сброшены. Здесь будут отображены результаты проверки форм';
+            });
+            
+            // Функции валидации для JavaScript
+            function validateName(name) {
+                if (!name) {
+                    return { isValid: false, message: "Поле обязательно для заполнения" };
+                }
+                if (name.length < 2) {
+                    return { isValid: false, message: "Имя должно содержать минимум 2 символа" };
+                }
+                if (name.length > 30) {
+                    return { isValid: false, message: "Имя должно содержать максимум 30 символов" };
+                }
+                if (!/^[A-Za-zА-Яа-яЁё\s]+$/.test(name)) {
+                    return { isValid: false, message: "Имя должно содержать только буквы" };
+                }
+                return { isValid: true, message: "" };
+            }
+            
+            function validateEmail(email) {
+                if (!email) {
+                    return { isValid: false, message: "Поле обязательно для заполнения" };
+                }
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    return { isValid: false, message: "Введите корректный email адрес" };
+                }
+                return { isValid: true, message: "" };
+            }
+            
+            function validatePassword(password) {
+                if (!password) {
+                    return { isValid: false, message: "Поле обязательно для заполнения" };
+                }
+                if (password.length < 8) {
+                    return { isValid: false, message: "Пароль должен содержать минимум 8 символов" };
+                }
+                if (!/(?=.*[a-zA-Z])(?=.*\d)/.test(password)) {
+                    return { isValid: false, message: "Пароль должен содержать буквы и цифры" };
+                }
+                return { isValid: true, message: "" };
+            }
+            
+            function validateAge(age) {
+                if (!age) {
+                    return { isValid: false, message: "Поле обязательно для заполнения" };
+                }
+                if (!/^\d+$/.test(age)) {
+                    return { isValid: false, message: "Возраст должен содержать только цифры" };
+                }
+                const ageNum = parseInt(age);
+                if (ageNum < 18 || ageNum > 99) {
+                    return { isValid: false, message: "Возраст должен быть от 18 до 99 лет" };
+                }
+                return { isValid: true, message: "" };
+            }
+            
+            function validateWebsite(website) {
+                if (!website) {
+                    return { isValid: true, message: "" }; // Необязательное поле
+                }
+                if (!/^https?:\/\/.+\..+/.test(website)) {
+                    return { isValid: false, message: "Введите корректный URL веб-сайта" };
+                }
+                return { isValid: true, message: "" };
+            }
+            
+            // Вспомогательные функции
+            function getHtml5ValidationMessage(field) {
+                if (field.validity.valueMissing) {
+                    return "Поле обязательно для заполнения";
+                }
+                if (field.validity.typeMismatch) {
+                    return "Неверный формат данных";
+                }
+                if (field.validity.patternMismatch) {
+                    return "Не соответствует требуемому формату";
+                }
+                if (field.validity.tooShort) {
+                    return `Минимальная длина: ${field.minLength} символов`;
+                }
+                if (field.validity.tooLong) {
+                    return `Максимальная длина: ${field.maxLength} символов`;
+                }
+                return "Неверное значение";
+            }
+            
+            function showError(errorId, message = '') {
+                const errorElement = document.getElementById(errorId);
+                errorElement.style.display = 'block';
+                if (message) {
+                    errorElement.textContent = message;
+                }
+            }
+            
+            function hideAllErrors(prefix = '') {
+                const errors = document.querySelectorAll('.error');
+                errors.forEach(error => {
+                    if (prefix === '' || error.id.startsWith(prefix)) {
+                        error.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

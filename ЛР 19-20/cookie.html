@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Задание №2 — Cookie</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700&family=Geologica:wght@300;400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f0ece4;
+    --surface: #ffffff;
+    --border: #d8d2c8;
+    --accent: #2d5016;
+    --accent-light: #4a7a26;
+    --accent-muted: #e8f0df;
+    --danger: #c0392b;
+    --danger-muted: #fdf0ee;
+    --text: #1a1a1a;
+    --muted: #7a7060;
+    --cookie: #c8832a;
+  }
+
+  body {
+    background: var(--bg);
+    font-family: 'Geologica', sans-serif;
+    min-height: 100vh;
+    padding: 2rem 1rem 5rem;
+    color: var(--text);
+  }
+
+  .page-wrap { max-width: 700px; margin: 0 auto; }
+
+  /* Header */
+  header { margin-bottom: 3rem; }
+
+  .tag {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+  /* Card */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card:nth-child(2) { animation-delay: 0.05s; }
+  .card:nth-child(3) { animation-delay: 0.1s; }
+
+  .card-header {
+    padding: 1rem 1.4rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: #fafaf8;
+  }
+
+  .card-icon { font-size: 1.1rem; }
+
+  .card-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+  }
+
+  .card-body { padding: 1.4rem; }
+
+  /* Form */
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 520px) { .field-grid { grid-template-columns: 1fr; } }
+
+  .field { display: flex; flex-direction: column; gap: 0.35rem; }
+  .field.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  input, textarea {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 0.65rem 0.85rem;
+    font-family: 'Geologica', sans-serif;
+    font-size: 0.88rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+
+  input:focus, textarea:focus {
+    border-color: var(--accent-light);
+    box-shadow: 0 0 0 3px var(--accent-muted);
+  }
+
+  textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+
+  /* Buttons */
+  .btn-row {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+  }
+
+  .btn {
+    padding: 0.65rem 1.3rem;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-save {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-save:hover { background: var(--accent-light); transform: translateY(-1px); }
+
+  .btn-load {
+    background: transparent;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+  }
+  .btn-load:hover { background: var(--accent-muted); }
+
+  .btn-clear {
+    background: transparent;
+    color: var(--danger);
+    border: 1.5px solid var(--danger);
+    margin-left: auto;
+  }
+  .btn-clear:hover { background: var(--danger-muted); }
+
+  /* Cookie viewer */
+  .cookie-viewer {
+    background: #1a1a16;
+    border-radius: 6px;
+    padding: 1.2rem 1.4rem;
+    font-family: 'Unbounded', monospace;
+    font-size: 0.72rem;
+    line-height: 1.8;
+    color: #b8c8a0;
+    min-height: 60px;
+    position: relative;
+  }
+
+  .cookie-viewer .empty {
+    color: #555;
+    font-style: italic;
+    font-family: 'Geologica', sans-serif;
+  }
+
+  .cookie-key { color: var(--cookie); }
+  .cookie-val { color: #d4e8b8; }
+  .cookie-sep { color: #555; }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Geologica', sans-serif;
+    font-size: 0.82rem;
+    padding: 0.7rem 1.4rem;
+    border-radius: 99px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(.22,1,.36,1);
+    white-space: nowrap;
+    z-index: 999;
+  }
+
+  .toast.danger { background: var(--danger); }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Info box */
+  .info-box {
+    background: var(--accent-muted);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 5px 5px 0;
+    padding: 0.75rem 1rem;
+    font-size: 0.78rem;
+    color: var(--accent);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .info-box code {
+    font-family: monospace;
+    background: rgba(0,0,0,0.08);
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <header>
+    <div class="tag">Задание №2</div>
+    <h1>Работа с Cookie в JS</h1>
+    <p class="subtitle">Введите личные данные → сохраните в Cookie → прочитайте → очистите</p>
+  </header>
+
+  <!-- Form card -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">📝</span>
+      <span class="card-title">Личные данные</span>
+    </div>
+    <div class="card-body">
+      <div class="field-grid">
+
+        <div class="field full">
+          <label for="fullName">ФИО</label>
+          <input type="text" id="fullName" placeholder="Иванов Иван Иванович">
+        </div>
+
+        <div class="field">
+          <label for="email">Электронная почта</label>
+          <input type="email" id="email" placeholder="ivanov@mail.ru">
+        </div>
+
+        <div class="field">
+          <label for="birthDate">Дата рождения</label>
+          <input type="date" id="birthDate">
+        </div>
+
+        <div class="field">
+          <label for="birthPlace">Место рождения</label>
+          <input type="text" id="birthPlace" placeholder="г. Минск">
+        </div>
+
+        <div class="field">
+          <label for="cookieExpiry">Срок хранения (дней)</label>
+          <input type="number" id="cookieExpiry" value="7" min="1" max="365">
+        </div>
+
+        <div class="field full">
+          <label for="hobbies">Увлечения</label>
+          <textarea id="hobbies" placeholder="Программирование, чтение, спорт..."></textarea>
+        </div>
+
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-save" onclick="saveDataToCookies()">💾 Сохранить в Cookie</button>
+        <button class="btn btn-load" onclick="loadDataFromCookies()">📂 Загрузить из Cookie</button>
+        <button class="btn btn-clear" onclick="clearAllCookies()">🗑 Очистить Cookie</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cookie viewer card -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">🍪</span>
+      <span class="card-title">Содержимое Cookie</span>
+    </div>
+    <div class="card-body">
+      <div class="info-box">
+        Ниже отображается содержимое <code>document.cookie</code> в реальном времени. Нажмите <strong>«Сохранить»</strong>, чтобы увидеть данные.
+      </div>
+      <div class="cookie-viewer" id="cookieViewer">
+        <span class="empty">Cookie пусты — введите данные и нажмите «Сохранить»</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ─── Cookie helpers ──────────────────────────────────────────────────────────
+
+  /**
+   * Записывает одну cookie.
+   * @param {string} name  — имя
+   * @param {string} value — значение (будет URI-кодировано)
+   * @param {number} days  — срок хранения в днях
+   */
+  function setCookie(name, value, days) {
+    const expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() + days);
+
+    const cookieString = [
+      `${encodeURIComponent(name)}=${encodeURIComponent(value)}`,
+      `expires=${expiryDate.toUTCString()}`,
+      'path=/',
+      'SameSite=Lax'
+    ].join('; ');
+
+    document.cookie = cookieString;
+  }
+
+  /**
+   * Читает значение одной cookie по имени.
+   * @param {string} name
+   * @returns {string|null}
+   */
+  function getCookie(name) {
+    const encodedName = encodeURIComponent(name);
+    const cookies = document.cookie.split('; ');
+
+    for (const cookie of cookies) {
+      const [cookieName, cookieValue] = cookie.split('=');
+      if (cookieName === encodedName) {
+        return decodeURIComponent(cookieValue);
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Удаляет cookie, устанавливая срок истечения в прошлом.
+   * @param {string} name
+   */
+  function deleteCookie(name) {
+    document.cookie = `${encodeURIComponent(name)}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+  }
+
+  // ─── Field config ─────────────────────────────────────────────────────────────
+
+  const COOKIE_FIELDS = [
+    { cookieName: 'user_full_name',   inputId: 'fullName'   },
+    { cookieName: 'user_email',       inputId: 'email'      },
+    { cookieName: 'user_birth_date',  inputId: 'birthDate'  },
+    { cookieName: 'user_birth_place', inputId: 'birthPlace' },
+    { cookieName: 'user_hobbies',     inputId: 'hobbies'    },
+  ];
+
+  // ─── Actions ──────────────────────────────────────────────────────────────────
+
+  function saveDataToCookies() {
+    const days = parseInt(document.getElementById('cookieExpiry').value, 10) || 7;
+    const fullName = document.getElementById('fullName').value.trim();
+
+    if (!fullName) {
+      showToast('Введите хотя бы ФИО', 'danger');
+      return;
+    }
+
+    for (const field of COOKIE_FIELDS) {
+      const value = document.getElementById(field.inputId).value.trim();
+      if (value) {
+        setCookie(field.cookieName, value, days);
+      }
+    }
+
+    renderCookieViewer();
+    showToast(`Данные сохранены на ${days} дн.`);
+  }
+
+  function loadDataFromCookies() {
+    let loadedCount = 0;
+
+    for (const field of COOKIE_FIELDS) {
+      const value = getCookie(field.cookieName);
+      if (value !== null) {
+        document.getElementById(field.inputId).value = value;
+        loadedCount++;
+      }
+    }
+
+    renderCookieViewer();
+
+    if (loadedCount > 0) {
+      showToast(`Загружено полей: ${loadedCount}`);
+    } else {
+      showToast('Cookie не найдены', 'danger');
+    }
+  }
+
+  function clearAllCookies() {
+    for (const field of COOKIE_FIELDS) {
+      deleteCookie(field.cookieName);
+    }
+
+    // Clear form fields too
+    for (const field of COOKIE_FIELDS) {
+      document.getElementById(field.inputId).value = '';
+    }
+
+    renderCookieViewer();
+    showToast('Cookie очищены');
+  }
+
+  // ─── UI helpers ───────────────────────────────────────────────────────────────
+
+  function renderCookieViewer() {
+    const viewer = document.getElementById('cookieViewer');
+
+    if (!document.cookie) {
+      viewer.innerHTML = '<span class="empty">Cookie пусты</span>';
+      return;
+    }
+
+    const cookies = document.cookie.split('; ');
+    const relevantNames = new Set(COOKIE_FIELDS.map(f => encodeURIComponent(f.cookieName)));
+
+    const lines = cookies
+      .filter(c => relevantNames.has(c.split('=')[0]))
+      .map(c => {
+        const eqIndex = c.indexOf('=');
+        const name  = decodeURIComponent(c.slice(0, eqIndex));
+        const value = decodeURIComponent(c.slice(eqIndex + 1));
+        return `<span class="cookie-key">${name}</span><span class="cookie-sep"> = </span><span class="cookie-val">${value}</span>`;
+      });
+
+    viewer.innerHTML = lines.length
+      ? lines.join('<br>')
+      : '<span class="empty">Нет данных от этого приложения</span>';
+  }
+
+  let toastTimer = null;
+
+  function showToast(message, type = '') {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.className = `toast ${type} show`;
+
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.remove('show');
+    }, 2500);
+  }
+
+  // ─── Init ─────────────────────────────────────────────────────────────────────
+
+  // Render any existing cookies on page load
+  renderCookieViewer();
+</script>
+</body>
+</html>

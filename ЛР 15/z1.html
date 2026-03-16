@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторная работа - Объекты в JavaScript</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .section {
+            background: white;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        .result {
+            background: #e8f5e8;
+            padding: 15px;
+            border-left: 4px solid #4caf50;
+            margin: 10px 0;
+        }
+        button {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Лабораторная работа: Объекты в JavaScript</h1>
+
+    <!-- Пример 1: Создание объектов -->
+    <div class="section">
+        <h2>1. Создание объектов</h2>
+        <div class="code-block">
+// Литеральная нотация
+const student = {
+    name: "Шикута Камилла",
+    age: 18,
+    university: "ГГПК",
+    courses: ["ПССИП", "БДиСУБД", "ТРПНП"],
+    
+    // Метод
+    introduce: function() {
+        return `Меня зовут ${this.name}, учусь в ${this.university}`;
+    },
+    
+    // Сокращенный синтаксис метода (ES6)
+    getCourses() {
+        return this.courses.join(", ");
+    }
+};
+        </div>
+        <button onclick="demoObjectCreation()">Запустить пример</button>
+        <div id="result1" class="result"></div>
+    </div>
+
+    <!-- Пример 2: Доступ к свойствам -->
+    <div class="section">
+        <h2>2. Доступ к свойствам объекта</h2>
+        <div class="code-block">
+const book = {
+    title: "JavaScript: The Good Parts",
+    author: "Douglas Crockford",
+    year: 2008,
+    "is-available": true  // Свойство с дефисом
+};
+
+// Точечная нотация
+console.log(book.title);
+
+// Скобочная нотация
+console.log(book["author"]);
+console.log(book["is-available"]); // Обязательно для спецсимволов
+
+// Динамический доступ
+const prop = "year";
+console.log(book[prop]);
+        </div>
+        <button onclick="demoPropertyAccess()">Запустить пример</button>
+        <div id="result2" class="result"></div>
+    </div>
+
+    <!-- Пример 3: Удаление свойств -->
+    <div class="section">
+        <h2>3. Удаление свойств (delete)</h2>
+        <div class="code-block">
+const product = {
+    name: "Ноутбук",
+    price: 50000,
+    brand: "Lenovo",
+    warranty: 2
+};
+
+console.log("До удаления:", Object.keys(product));
+delete product.warranty;
+console.log("После удаления:", Object.keys(product));
+        </div>
+        <button onclick="demoDeleteProperty()">Запустить пример</button>
+        <div id="result3" class="result"></div>
+    </div>
+
+    <!-- Пример 4: Проверка существования свойств -->
+    <div class="section">
+        <h2>4. Проверка существования свойств</h2>
+        <div class="code-block">
+const user = {
+    username: "john_doe",
+    email: "john@example.com",
+    age: 30
+};
+
+// Оператор in
+console.log("username" in user); // true
+console.log("phone" in user);    // false
+
+// Метод hasOwnProperty()
+console.log(user.hasOwnProperty("email")); // true
+console.log(user.hasOwnProperty("address")); // false
+
+// Проверка через undefined
+console.log(user.age !== undefined); // true
+console.log(user.city !== undefined); // false
+        </div>
+        <button onclick="demoPropertyCheck()">Запустить пример</button>
+        <div id="result4" class="result"></div>
+    </div>
+
+    <!-- Пример 5: Перебор свойств -->
+    <div class="section">
+        <h2>5. Перебор свойств объекта</h2>
+        <div class="code-block">
+const car = {
+    brand: "BMW",
+    model: "X5",
+    year: 2023,
+    color: "black",
+    price: 7500000
+};
+
+// for...in
+for (let key in car) {
+    console.log(`${key}: ${car[key]}`);
+}
+
+// Object.keys()
+const keys = Object.keys(car);
+console.log("Ключи:", keys);
+
+// Object.values()
+const values = Object.values(car);
+console.log("Значения:", values);
+
+// Object.entries()
+Object.entries(car).forEach(([key, value]) => {
+    console.log(`Свойство "${key}" имеет значение "${value}"`);
+});
+        </div>
+        <button onclick="demoPropertyIteration()">Запустить пример</button>
+        <div id="result5" class="result"></div>
+    </div>
+
+    <!-- Пример 6: Конструкторы объектов -->
+    <div class="section">
+        <h2>6. Создание объектов через конструктор</h2>
+        <div class="code-block">
+// Функция-конструктор
+function Person(name, age, city) {
+    this.name = name;
+    this.age = age;
+    this.city = city;
+    
+    this.getInfo = function() {
+        return `${this.name}, ${this.age} лет, г. ${this.city}`;
+    };
+}
+
+// Создание экземпляров
+const person1 = new Person("Мария", 25, "Санкт-Петербург");
+const person2 = new Person("Иван", 30, "Москва");
+
+console.log(person1.getInfo());
+console.log(person2.getInfo());
+        </div>
+        <button onclick="demoConstructor()">Запустить пример</button>
+        <div id="result6" class="result"></div>
+    </div>
+
+    <!-- Пример 7: Классы (ES6) -->
+    <div class="section">
+        <h2>7. Классы в JavaScript (ES6)</h2>
+        <div class="code-block">
+class Animal {
+    constructor(name, type, sound) {
+        this.name = name;
+        this.type = type;
+        this.sound = sound;
+    }
+    
+    // Метод экземпляра
+    makeSound() {
+        return `${this.name} говорит: ${this.sound}!`;
+    }
+    
+    // Статический метод
+    static isAnimal(obj) {
+        return obj instanceof Animal;
+    }
+}
+
+// Наследование
+class Dog extends Animal {
+    constructor(name, breed) {
+        super(name, "собака", "Гав");
+        this.breed = breed;
+    }
+    
+    bark() {
+        return `${this.name} лает: ${this.sound} ${this.sound}!`;
+    }
+}
+
+const myDog = new Dog("Бобик", "овчарка");
+console.log(myDog.makeSound());
+console.log(myDog.bark());
+console.log(Animal.isAnimal(myDog));
+        </div>
+        <button onclick="demoClasses()">Запустить пример</button>
+        <div id="result7" class="result"></div>
+    </div>
+
+    <script>
+        // Демонстрационные функции
+        function demoObjectCreation() {
+            const student = {
+                name: "Шикута Камилла",
+                age: 18,
+                university: "ГГПК",
+                courses: ["ПССИП", "БДиСУБД", "ТРПНП"],
+                
+                introduce: function() {
+                    return `Меня зовут ${this.name}, учусь в ${this.university}`;
+                },
+                
+                getCourses() {
+                    return this.courses.join(", ");
+                }
+            };
+            
+            const result = `
+                ${student.introduce()}<br>
+                Курсы: ${student.getCourses()}<br>
+                Возраст: ${student.age} лет
+            `;
+            document.getElementById('result1').innerHTML = result;
+        }
+
+        function demoPropertyAccess() {
+            const book = {
+                title: "JavaScript: The Good Parts",
+                author: "Douglas Crockford",
+                year: 2008,
+                "is-available": true
+            };
+            
+            const result = `
+                Точечная нотация: ${book.title}<br>
+                Скобочная нотация: ${book["author"]}<br>
+                Спецсимволы: ${book["is-available"]}<br>
+                Динамический доступ: ${book["year"]}
+            `;
+            document.getElementById('result2').innerHTML = result;
+        }
+
+        function demoDeleteProperty() {
+            const product = {
+                name: "Ноутбук",
+                price: 50000,
+                brand: "Lenovo",
+                warranty: 2
+            };
+            
+            const before = `До удаления: ${Object.keys(product).join(", ")}`;
+            delete product.warranty;
+            const after = `После удаления: ${Object.keys(product).join(", ")}`;
+            
+            document.getElementById('result3').innerHTML = `${before}<br>${after}`;
+        }
+
+        function demoPropertyCheck() {
+            const user = {
+                username: "john_doe",
+                email: "john@example.com",
+                age: 30
+            };
+            
+            const result = `
+                "username" in user: ${"username" in user}<br>
+                "phone" in user: ${"phone" in user}<br>
+                user.hasOwnProperty("email"): ${user.hasOwnProperty("email")}<br>
+                user.hasOwnProperty("address"): ${user.hasOwnProperty("address")}
+            `;
+            document.getElementById('result4').innerHTML = result;
+        }
+
+        function demoPropertyIteration() {
+            const car = {
+                brand: "BMW",
+                model: "X5",
+                year: 2023,
+                color: "black",
+                price: 7500000
+            };
+            
+            let result = "<strong>for...in:</strong><br>";
+            for (let key in car) {
+                result += `${key}: ${car[key]}<br>`;
+            }
+            
+            result += `<br><strong>Object.keys():</strong> ${Object.keys(car).join(", ")}<br>`;
+            result += `<strong>Object.values():</strong> ${Object.values(car).join(", ")}<br>`;
+            
+            result += "<br><strong>Object.entries():</strong><br>";
+            Object.entries(car).forEach(([key, value]) => {
+                result += `"${key}" = "${value}"<br>`;
+            });
+            
+            document.getElementById('result5').innerHTML = result;
+        }
+
+        function demoConstructor() {
+            function Person(name, age, city) {
+                this.name = name;
+                this.age = age;
+                this.city = city;
+                
+                this.getInfo = function() {
+                    return `${this.name}, ${this.age} лет, г. ${this.city}`;
+                };
+            }
+            
+            const person1 = new Person("Мария", 25, "Санкт-Петербург");
+            const person2 = new Person("Иван", 30, "Москва");
+            
+            const result = `
+                ${person1.getInfo()}<br>
+                ${person2.getInfo()}
+            `;
+            document.getElementById('result6').innerHTML = result;
+        }
+
+        function demoClasses() {
+            class Animal {
+                constructor(name, type, sound) {
+                    this.name = name;
+                    this.type = type;
+                    this.sound = sound;
+                }
+                
+                makeSound() {
+                    return `${this.name} говорит: ${this.sound}!`;
+                }
+                
+                static isAnimal(obj) {
+                    return obj instanceof Animal;
+                }
+            }
+
+            class Dog extends Animal {
+                constructor(name, breed) {
+                    super(name, "собака", "Гав");
+                    this.breed = breed;
+                }
+                
+                bark() {
+                    return `${this.name} лает: ${this.sound} ${this.sound}!`;
+                }
+            }
+
+            const myDog = new Dog("Бобик", "овчарка");
+            
+            const result = `
+                ${myDog.makeSound()}<br>
+                ${myDog.bark()}<br>
+                Это животное? ${Animal.isAnimal(myDog)}
+            `;
+            document.getElementById('result7').innerHTML = result;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Валидация формы</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+
+    .registration-form {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      width: 100%;
+      max-width: 500px;
+    }
+    
+    .registration-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    
+    .registration-header h1 {
+      color: #333;
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    
+    .form-group input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    
+    .required::after {
+      content: " *";
+      color: #ff0000;
+    }
+    
+    .error-message {
+      color: #ff0000;
+      font-size: 12px;
+      margin-top: 5px;
+      display: none;
+    }
+    
+    .input-error {
+      border-color: #ff0000 !important;
+    }
+    
+    .input-valid {
+      border-color: #00aa00 !important;
+    }
+    
+    .submit-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+    }
+    
+    .submit-btn:hover {
+      background-color: #45a049;
+    }
+    
+    .tooltip {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background-color: #333;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    
+    .form-group:hover .tooltip {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="registration-form">
+    <div class="registration-header">
+      <h1>Форма регистрации</h1>
+    </div>
+    
+    <form id="registrationForm">
+      <!-- Фамилия -->
+      <div class="form-group">
+        <label class="required">Фамилия</label>
+        <input type="text" id="lastName" name="lastName" placeholder="Введите фамилию">
+        <span class="tooltip">Только кириллица, 2-30 символов</span>
+        <div class="error-message" id="lastNameError">Поле обязательно для заполнения</div>
+      </div>
+      
+      <!-- Имя -->
+      <div class="form-group">
+        <label class="required">Имя</label>
+        <input type="text" id="firstName" name="firstName" placeholder="Введите имя">
+        <span class="tooltip">Только кириллица, 2-30 символов</span>
+        <div class="error-message" id="firstNameError">Поле обязательно для заполнения</div>
+      </div>
+      
+      <!-- Email -->
+      <div class="form-group">
+        <label class="required">Email</label>
+        <input type="text" id="email" name="email" placeholder="Введите email">
+        <span class="tooltip">Формат: example@domain.com</span>
+        <div class="error-message" id="emailError">Введите корректный email</div>
+      </div>
+      
+      <!-- Пароль -->
+      <div class="form-group">
+        <label class="required">Пароль</label>
+        <input type="text" id="password" name="password" placeholder="Введите пароль">
+        <span class="tooltip">6-20 символов, минимум 1 цифра</span>
+        <div class="error-message" id="passwordError">Пароль должен содержать 6-20 символов, включая цифры</div>
+      </div>
+      
+      <!-- Телефон -->
+      <div class="form-group">
+        <label class="required">Телефон</label>
+        <input type="text" id="phone" name="phone" placeholder="Введите телефон">
+        <span class="tooltip">Формат: +375 (XX) XXX-XX-XX</span>
+        <div class="error-message" id="phoneError">Введите корректный номер телефона</div>
+      </div>
+      
+      <button type="submit" class="submit-btn">Зарегистрироваться</button>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('registrationForm');
+      
+      // Валидация при потере фокуса
+      document.getElementById('lastName').addEventListener('blur', validateLastName);
+      document.getElementById('firstName').addEventListener('blur', validateFirstName);
+      document.getElementById('email').addEventListener('blur', validateEmail);
+      document.getElementById('password').addEventListener('blur', validatePassword);
+      document.getElementById('phone').addEventListener('blur', validatePhone);
+      
+      // Валидация при отправке формы
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const isLastNameValid = validateLastName();
+        const isFirstNameValid = validateFirstName();
+        const isEmailValid = validateEmail();
+        const isPasswordValid = validatePassword();
+        const isPhoneValid = validatePhone();
+        
+        if (isLastNameValid && isFirstNameValid && isEmailValid && isPasswordValid && isPhoneValid) {
+          alert('Форма успешно отправлена!');
+          form.submit();
+        } else {
+          alert('Пожалуйста, исправьте ошибки в форме');
+        }
+      });
+      
+      // Функции валидации
+      function validateLastName() {
+        const input = document.getElementById('lastName');
+        const error = document.getElementById('lastNameError');
+        const value = input.value.trim();
+        
+        if (!value) {
+          showError(input, error, 'Поле обязательно для заполнения');
+          return false;
+        }
+        
+        if (!/^[А-ЯЁа-яё]{2,30}$/.test(value)) {
+          showError(input, error, 'Только кириллица, 2-30 символов');
+          return false;
+        }
+        
+        showSuccess(input, error);
+        return true;
+      }
+      
+      function validateFirstName() {
+        const input = document.getElementById('firstName');
+        const error = document.getElementById('firstNameError');
+        const value = input.value.trim();
+        
+        if (!value) {
+          showError(input, error, 'Поле обязательно для заполнения');
+          return false;
+        }
+        
+        if (!/^[А-ЯЁа-яё]{2,30}$/.test(value)) {
+          showError(input, error, 'Только кириллица, 2-30 символов');
+          return false;
+        }
+        
+        showSuccess(input, error);
+        return true;
+      }
+      
+      function validateEmail() {
+        const input = document.getElementById('email');
+        const error = document.getElementById('emailError');
+        const value = input.value.trim();
+        
+        if (!value) {
+          showError(input, error, 'Поле обязательно для заполнения');
+          return false;
+        }
+        
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          showError(input, error, 'Введите корректный email');
+          return false;
+        }
+        
+        showSuccess(input, error);
+        return true;
+      }
+      
+      function validatePassword() {
+        const input = document.getElementById('password');
+        const error = document.getElementById('passwordError');
+        const value = input.value.trim();
+        
+        if (!value) {
+          showError(input, error, 'Поле обязательно для заполнения');
+          return false;
+        }
+        
+        if (value.length < 6 || value.length > 20) {
+          showError(input, error, 'Пароль должен быть 6-20 символов');
+          return false;
+        }
+        
+        if (!/\d/.test(value)) {
+          showError(input, error, 'Пароль должен содержать хотя бы одну цифру');
+          return false;
+        }
+        
+        showSuccess(input, error);
+        return true;
+      }
+      
+      function validatePhone() {
+        const input = document.getElementById('phone');
+        const error = document.getElementById('phoneError');
+        const value = input.value.trim();
+        
+        if (!value) {
+          showError(input, error, 'Поле обязательно для заполнения');
+          return false;
+        }
+        
+        if (!/^\+375\s?\(?\d{2}\)?\s?\d{3}-?\d{2}-?\d{2}$/.test(value)) {
+          showError(input, error, 'Формат: +375 (XX) XXX-XX-XX');
+          return false;
+        }
+        
+        showSuccess(input, error);
+        return true;
+      }
+      
+      // Вспомогательные функции
+      function showError(input, errorElement, message) {
+        input.classList.add('input-error');
+        input.classList.remove('input-valid');
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+      }
+      
+      function showSuccess(input, errorElement) {
+        input.classList.remove('input-error');
+        input.classList.add('input-valid');
+        errorElement.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

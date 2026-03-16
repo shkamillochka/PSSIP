@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pointer Events</title>
+    <style>
+        .pointer-container {
+            padding: 20px;
+            margin: 20px;
+            border: 2px solid #9b59b6;
+            border-radius: 10px;
+            background: #f8f9fa;
+        }
+        .pointer-area {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+            margin: 15px 0;
+            position: relative;
+            cursor: crosshair;
+        }
+        .pointer-dot {
+            width: 20px;
+            height: 20px;
+            background: #e74c3c;
+            border-radius: 50%;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        .pointer-info {
+            padding: 15px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="pointer-container">
+        <h2>4. События указателя</h2>
+        <div class="pointer-area" id="pointerArea">
+            <div class="pointer-dot" id="pointerDot"></div>
+        </div>
+        <div class="pointer-info" id="pointerInfo">Информация о событиях...</div>
+    </div>
+
+    <script>
+        const pointerArea = document.getElementById('pointerArea');
+        const pointerDot = document.getElementById('pointerDot');
+        const pointerInfo = document.getElementById('pointerInfo');
+
+        pointerArea.addEventListener('pointerdown', (e) => {
+            pointerDot.style.background = '#27ae60';
+            updateInfo('DOWN', e);
+        });
+
+        pointerArea.addEventListener('pointerup', (e) => {
+            pointerDot.style.background = '#e74c3c';
+            updateInfo('UP', e);
+        });
+
+        pointerArea.addEventListener('pointermove', (e) => {
+            pointerDot.style.left = e.offsetX + 'px';
+            pointerDot.style.top = e.offsetY + 'px';
+            updateInfo('MOVE', e);
+        });
+
+        pointerArea.addEventListener('pointerenter', (e) => {
+            pointerArea.style.boxShadow = '0 0 20px rgba(155, 89, 182, 0.7)';
+            updateInfo('ENTER', e);
+        });
+
+        pointerArea.addEventListener('pointerleave', (e) => {
+            pointerArea.style.boxShadow = 'none';
+            updateInfo('LEAVE', e);
+        });
+
+        function updateInfo(eventType, event) {
+            pointerInfo.innerHTML = `
+                Событие: pointer${eventType}
+                Тип: ${event.pointerType}
+                ID: ${event.pointerId}
+                Координаты: X=${event.offsetX}, Y=${event.offsetY}
+                Давление: ${event.pressure}
+                Кнопки: ${event.buttons}
+            `;
+        }
+    </script>
+</body>
+</html>

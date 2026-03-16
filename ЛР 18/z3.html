@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RegExp и регулярные выражения</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        body {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+        h2 {
+            text-align: left;
+            margin-top: 40px;
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+            margin-bottom: 30px;
+        }
+        .method-group {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 16px;
+        }
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #fff;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 10px;
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        button {
+            background: linear-gradient(to bottom, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+            font-family: 'Montserrat', sans-serif;
+        }
+        button:hover {
+            background: linear-gradient(to bottom, #2980b9, #2573a7);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(52, 152, 219, 0.4);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .output-container {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .output-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 16px;
+        }
+        .output-data {
+            white-space: pre-wrap;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            min-height: 80px;
+            color: #2c3e50;
+            font-family: 'Courier New', monospace;
+            font-weight: 500;
+            overflow-x: auto;
+        }
+        .regex-info {
+            background-color: #e8f4fc;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .flag-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .flag-option {
+            display: flex;
+            align-items: center;
+        }
+        .flag-option input {
+            margin-right: 5px;
+        }
+        .success {
+            color: #27ae60;
+            font-weight: 600;
+        }
+        .error {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+        .match-highlight {
+            background-color: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        .code-example {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Работа с объектом RegExp и регулярными выражениями</h1>
+
+    <div class="section">
+        <h2>1. Флаги регулярных выражений</h2>
+        <div class="regex-info">
+            <p>Флаги изменяют поведение регулярных выражений:</p>
+            <ul>
+                <li><strong>g</strong> - глобальный поиск (все совпадения)</li>
+                <li><strong>i</strong> - игнорирование регистра</li>
+                <li><strong>m</strong> - многострочный режим</li>
+                <li><strong>s</strong> - точка соответствует символу перевода строки</li>
+                <li><strong>u</strong> - полная поддержка Юникода</li>
+                <li><strong>y</strong> - поиск на конкретной позиции</li>
+            </ul>
+        </div>
+
+        <div class="method-group">
+            <label for="testText">Текст для проверки:</label>
+            <textarea id="testText">Пример текста для проверки регулярных выражений.
+Текст содержит несколько строк.
+Примеры: test@example.com, +7-123-456-78-90, 123.45.67.89</textarea>
+            
+            <label for="testPattern">Регулярное выражение:</label>
+            <input type="text" id="testPattern" value="пример" placeholder="Введите регулярное выражение">
+            
+            <div class="flag-options">
+                <div class="flag-option">
+                    <input type="checkbox" id="flagG" checked>
+                    <label for="flagG">g (глобальный поиск)</label>
+                </div>
+                <div class="flag-option">
+                    <input type="checkbox" id="flagI">
+                    <label for="flagI">i (игнорирование регистра)</label>
+                </div>
+                <div class="flag-option">
+                    <input type="checkbox" id="flagM">
+                    <label for="flagM">m (многострочный режим)</label>
+                </div>
+                <div class="flag-option">
+                    <input type="checkbox" id="flagS">
+                    <label for="flagS">s (однострочный режим)</label>
+                </div>
+            </div>
+            
+            <button id="testFlagsBtn">Проверить влияние флагов</button>
+            
+            <div class="output-container">
+                <div class="output-title">Результат:</div>
+                <div class="output-data" id="flagsOutput">Здесь будет показан результат применения флагов</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. Методы объекта RegExp</h2>
+
+        <div class="method-group">
+            <h3>Метод test()</h3>
+            <p>Проверяет, соответствует ли строка регулярному выражению (возвращает true/false)</p>
+            
+            <label for="testRegex">Регулярное выражение:</label>
+            <input type="text" id="testRegex" value="^\w+@\w+\.\w+$" placeholder="Введите регулярное выражение">
+            
+            <label for="testString">Строка для проверки:</label>
+            <input type="text" id="testString" value="test@example.com" placeholder="Введите строку для проверки">
+            
+            <button id="testTestBtn">Выполнить test()</button>
+            
+            <div class="output-container">
+                <div class="output-title">Результат test():</div>
+                <div class="output-data" id="testOutput">Здесь будет результат выполнения test()</div>
+            </div>
+        </div>
+
+        <div class="method-group">
+            <h3>Метод exec()</h3>
+            <p>Выполняет поиск совпадения в строке и возвращает массив с информацией или null</p>
+            
+            <label for="execRegex">Регулярное выражение:</label>
+            <input type="text" id="execRegex" value="\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b" placeholder="Введите регулярное выражение">
+            
+            <label for="execString">Строка для поиска:</label>
+            <input type="text" id="execString" value="IP-адреса: 192.168.1.1, 10.0.0.1, 255.255.255.0" placeholder="Введите строку для поиска">
+            
+            <button id="testExecBtn">Выполнить exec()</button>
+            
+            <div class="output-container">
+                <div class="output-title">Результат exec():</div>
+                <div class="output-data" id="execOutput">Здесь будет результат выполнения exec()</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>3. Методы объекта String для работы с регулярными выражениями</h2>
+
+        <div class="method-group">
+            <h3>Метод match()</h3>
+            <p>Возвращает массив совпадений или null, если совпадений нет</p>
+            
+            <label for="matchRegex">Регулярное выражение:</label>
+            <input type="text" id="matchRegex" value="\+\d-\d{3}-\d{3}-\d{2}-\d{2}" placeholder="Введите регулярное выражение">
+            
+            <label for="matchString">Строка для поиска:</label>
+            <input type="text" id="matchString" value="Телефоны: +7-123-456-78-90, +1-234-567-89-01" placeholder="Введите строку для поиска">
+            
+            <button id="testMatchBtn">Выполнить match()</button>
+            
+            <div class="output-container">
+                <div class="output-title">Результат match():</div>
+                <div class="output-data" id="matchOutput">Здесь будет результат выполнения match()</div>
+            </div>
+        </div>
+
+        <div class="method-group">
+            <h3>Метод search()</h3>
+            <p>Возвращает индекс первого совпадения или -1, если совпадений нет</p>
+            
+            <label for="searchRegex">Регулярное выражение:</label>
+            <input type="text" id="searchRegex" value="\d{3}\.\d{2}" placeholder="Введите регулярное выражение">
+            
+            <label for="searchString">Строка для поиска:</label>
+            <input type="text" id="searchString" value="Цена: 123.45 рублей, скидка 67.89" placeholder="Введите строку для поиска">
+            
+            <button id="testSearchBtn">Выполнить search()</button>
+            
+            <div class="output-container">
+                <div class="output-title">Результат search():</div>
+                <div class="output-data" id="searchOutput">Здесь будет результат выполнения search()</div>
+            </div>
+        </div>
+
+        <div class="method-group">
+            <h3>Метод replace()</h3>
+            <p>Заменяет совпадения с регулярным выражением на указанную строку</p>
+            
+            <label for="replaceRegex">Регулярное выражение:</label>
+            <input type="text" id="replaceRegex" value="(\w+)@(\w+)\.(\w+)" placeholder="Введите регулярное выражение">
+            
+            <label for="replaceString">Исходная строка:</label>
+            <input type="text" id="replaceString" value="Контакты: user@example.com, admin@test.org" placeholder="Введите исходную строку">
+            
+            <label for="replaceWith">Заменить на:</label>
+            <input type="text" id="replaceWith" value="[EMAIL скрыт]" placeholder="Введите строку замены">
+            
+            <button id="testReplaceBtn">Выполнить replace()</button>
+            
+            <div class="output-container">
+                <div class="output-title">Результат replace():</div>
+                <div class="output-data" id="replaceOutput">Здесь будет результат выполнения replace()</div>
+            </div>
+        </div>
+
+        <div class="method-group">
+            <h3>Метод split()</h3>
+            <p>Разбивает строку на массив подстрок с использованием регулярного выражения</p>
+            
+            <label for="splitRegex">Регулярное выражение для разделения:</label>
+            <input type="text" id="splitRegex" value="\s*,\s*" placeholder="Введите регулярное выражение">
+            
+            <label for="splitString">Строка для разделения:</label>
+            <input type="text" id="splitString" value="яблоки, апельсины, бананы, груши" placeholder="Введите строку для разделения">
+            
+            <button id="testSplitBtn">Выполнить split()</button>
+            
+            <div class="output-container">
+                <div class="output-title">Результат split():</div>
+                <div class="output-data" id="splitOutput">Здесь будет результат выполнения split()</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>4. Практические примеры регулярных выражений</h2>
+        
+        <div class="method-group">
+            <h3>Проверка email</h3>
+            <div class="code-example">/^[^\s@]+@[^\s@]+\.[^\s@]+$/</div>
+            <button id="testEmailBtn">Протестировать email</button>
+        </div>
+        
+        <div class="method-group">
+            <h3>Проверка номера телефона</h3>
+            <div class="code-example">/^\+?\d{1,3}[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/</div>
+            <button id="testPhoneBtn">Протестировать телефон</button>
+        </div>
+        
+        <div class="method-group">
+            <h3>Поиск URL</h3>
+            <div class="code-example">/https?:\/\/[^\s/$.?#].[^\s]*/gi</div>
+            <button id="testUrlBtn">Протестировать URL</button>
+        </div>
+        
+        <div class="method-group">
+            <h3>Поиск хештегов</h3>
+            <div class="code-example">/#\w+/g</div>
+            <button id="testHashtagBtn">Протестировать хештеги</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. Демонстрация флагов
+            document.getElementById('testFlagsBtn').addEventListener('click', function() {
+                const text = document.getElementById('testText').value;
+                const pattern = document.getElementById('testPattern').value;
+                
+                // Собираем флаги
+                let flags = '';
+                if (document.getElementById('flagG').checked) flags += 'g';
+                if (document.getElementById('flagI').checked) flags += 'i';
+                if (document.getElementById('flagM').checked) flags += 'm';
+                if (document.getElementById('flagS').checked) flags += 's';
+                
+                try {
+                    const regex = new RegExp(pattern, flags);
+                    const matches = text.match(regex);
+                    
+                    let result = `Регулярное выражение: /${pattern}/${flags}\n\n`;
+                    result += `Текст: "${text}"\n\n`;
+                    
+                    if (matches) {
+                        result += `Найдено совпадений: ${matches.length}\n`;
+                        result += `Совпадения: ${JSON.stringify(matches, null, 2)}`;
+                    } else {
+                        result += 'Совпадений не найдено';
+                    }
+                    
+                    document.getElementById('flagsOutput').textContent = result;
+                } catch (e) {
+                    document.getElementById('flagsOutput').textContent = `Ошибка в регулярном выражении: ${e.message}`;
+                }
+            });
+            
+            // 2. Метод test()
+            document.getElementById('testTestBtn').addEventListener('click', function() {
+                const regexStr = document.getElementById('testRegex').value;
+                const testString = document.getElementById('testString').value;
+                
+                try {
+                    const regex = new RegExp(regexStr);
+                    const result = regex.test(testString);
+                    
+                    document.getElementById('testOutput').textContent = 
+                        `Регулярное выражение: /${regexStr}/\n` +
+                        `Строка: "${testString}"\n` +
+                        `Результат: ${result ? 'СОВПАДАЕТ' : 'НЕ СОВПАДАЕТ'}`;
+                } catch (e) {
+                    document.getElementById('testOutput').textContent = `Ошибка: ${e.message}`;
+                }
+            });
+            
+            // 3. Метод exec()
+            document.getElementById('testExecBtn').addEventListener('click', function() {
+                const regexStr = document.getElementById('execRegex').value;
+                const execString = document.getElementById('execString').value;
+                
+                try {
+                    const regex = new RegExp(regexStr, 'g');
+                    let result = `Регулярное выражение: /${regexStr}/g\n`;
+                    result += `Строка: "${execString}"\n\n`;
+                    
+                    let match;
+                    let matches = [];
+                    while ((match = regex.exec(execString)) !== null) {
+                        matches.push({
+                            match: match[0],
+                            index: match.index,
+                            input: match.input
+                        });
+                    }
+                    
+                    if (matches.length > 0) {
+                        result += `Найдено совпадений: ${matches.length}\n`;
+                        matches.forEach((m, i) => {
+                            result += `${i+1}. "${m.match}" на позиции ${m.index}\n`;
+                        });
+                    } else {
+                        result += 'Совпадений не найдено';
+                    }
+                    
+                    document.getElementById('execOutput').textContent = result;
+                } catch (e) {
+                    document.getElementById('execOutput').textContent = `Ошибка: ${e.message}`;
+                }
+            });
+            
+            // 4. Метод match()
+            document.getElementById('testMatchBtn').addEventListener('click', function() {
+                const regexStr = document.getElementById('matchRegex').value;
+                const matchString = document.getElementById('matchString').value;
+                
+                try {
+                    const regex = new RegExp(regexStr, 'g');
+                    const matches = matchString.match(regex);
+                    
+                    let result = `Регулярное выражение: /${regexStr}/g\n`;
+                    result += `Строка: "${matchString}"\n\n`;
+                    
+                    if (matches) {
+                        result += `Найдено совпадений: ${matches.length}\n`;
+                        result += `Совпадения: ${JSON.stringify(matches, null, 2)}`;
+                    } else {
+                        result += 'Совпадений не найдено';
+                    }
+                    
+                    document.getElementById('matchOutput').textContent = result;
+                } catch (e) {
+                    document.getElementById('matchOutput').textContent = `Ошибка: ${e.message}`;
+                }
+            });
+            
+            // 5. Метод search()
+            document.getElementById('testSearchBtn').addEventListener('click', function() {
+                const regexStr = document.getElementById('searchRegex').value;
+                const searchString = document.getElementById('searchString').value;
+                
+                try {
+                    const regex = new RegExp(regexStr);
+                    const position = searchString.search(regex);
+                    
+                    let result = `Регулярное выражение: /${regexStr}/\n`;
+                    result += `Строка: "${searchString}"\n\n`;
+                    
+                    if (position !== -1) {
+                        result += `Первое совпадение найдено на позиции: ${position}`;
+                    } else {
+                        result += 'Совпадений не найдено';
+                    }
+                    
+                    document.getElementById('searchOutput').textContent = result;
+                } catch (e) {
+                    document.getElementById('searchOutput').textContent = `Ошибка: ${e.message}`;
+                }
+            });
+            
+            // 6. Метод replace()
+            document.getElementById('testReplaceBtn').addEventListener('click', function() {
+                const regexStr = document.getElementById('replaceRegex').value;
+                const replaceString = document.getElementById('replaceString').value;
+                const replaceWith = document.getElementById('replaceWith').value;
+                
+                try {
+                    const regex = new RegExp(regexStr, 'g');
+                    const result = replaceString.replace(regex, replaceWith);
+                    
+                    document.getElementById('replaceOutput').textContent = 
+                        `Регулярное выражение: /${regexStr}/g\n` +
+                        `Исходная строка: "${replaceString}"\n` +
+                        `Замена: "${replaceWith}"\n\n` +
+                        `Результат: "${result}"`;
+                } catch (e) {
+                    document.getElementById('replaceOutput').textContent = `Ошибка: ${e.message}`;
+                }
+            });
+            
+            // 7. Метод split()
+            document.getElementById('testSplitBtn').addEventListener('click', function() {
+                const regexStr = document.getElementById('splitRegex').value;
+                const splitString = document.getElementById('splitString').value;
+                
+                try {
+                    const regex = new RegExp(regexStr);
+                    const parts = splitString.split(regex);
+                    
+                    document.getElementById('splitOutput').textContent = 
+                        `Регулярное выражение: /${regexStr}/\n` +
+                        `Исходная строка: "${splitString}"\n\n` +
+                        `Результат разделения:\n${JSON.stringify(parts, null, 2)}`;
+                } catch (e) {
+                    document.getElementById('splitOutput').textContent = `Ошибка: ${e.message}`;
+                }
+            });
+            
+            // Практические примеры
+            document.getElementById('testEmailBtn').addEventListener('click', function() {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const testEmails = [
+                    'user@example.com',
+                    'invalid-email',
+                    'test@domain',
+                    'name.lastname@company.co.uk'
+                ];
+                
+                let result = 'Проверка email адресов:\n\n';
+                testEmails.forEach(email => {
+                    const isValid = emailRegex.test(email);
+                    result += `"${email}" - ${isValid ? 'VALID' : 'INVALID'}\n`;
+                });
+                
+                alert(result);
+            });
+            
+            document.getElementById('testPhoneBtn').addEventListener('click', function() {
+                const phoneRegex = /^\+?\d{1,3}[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
+                const testPhones = [
+                    '+7-123-456-78-90',
+                    '8(912)345-67-89',
+                    '1234567',
+                    '+1-234-567-8901'
+                ];
+                
+                let result = 'Проверка номеров телефонов:\n\n';
+                testPhones.forEach(phone => {
+                    const isValid = phoneRegex.test(phone);
+                    result += `"${phone}" - ${isValid ? 'VALID' : 'INVALID'}\n`;
+                });
+                
+                alert(result);
+            });
+            
+            document.getElementById('testUrlBtn').addEventListener('click', function() {
+                const urlRegex = /https?:\/\/[^\s/$.?#].[^\s]*/gi;
+                const testText = 'Посетите сайты https://example.com и http://test.org для получения информации.';
+                const matches = testText.match(urlRegex);
+                
+                alert(`Найденные URL:\n\n${matches ? matches.join('\n') : 'Не найдено'}`);
+            });
+            
+            document.getElementById('testHashtagBtn').addEventListener('click', function() {
+                const hashtagRegex = /#\w+/g;
+                const testText = 'Популярные хештеги: #javascript #webdev #programming #coding';
+                const matches = testText.match(hashtagRegex);
+                
+                alert(`Найденные хештеги:\n\n${matches ? matches.join('\n') : 'Не найдено'}`);
+            });
+        });
+    </script>
+</body>
+</html>

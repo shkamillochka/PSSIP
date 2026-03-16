@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Обработка строк</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      padding: 20px;
+    }
+    .container {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    p {
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Обработка строк</h1>
+    <p id="original"></p>
+    <p id="length"></p>
+    <p id="modifiedS2"></p>
+    <p id="replaced"></p>
+  </div>
+
+  <script>
+    // Шаг 1: создаём строки
+    let S1 = "Камилла";
+    let S2 = "Программирование музыка рисование";
+
+    document.getElementById("original").textContent = `S1: ${S1} | S2: ${S2}`;
+
+    // Шаг 2: длина строки S1
+    let lengthS1 = S1.length;
+    document.getElementById("length").textContent = `Длина строки S1: ${lengthS1}`;
+
+    // Шаг 3: добавим пробелы между словами в S2
+    let spacedS2 = S2.split(" ").join("   ");
+    document.getElementById("modifiedS2").textContent = `S2 с пробелами: ${spacedS2}`;
+
+    // Шаг 4: заменим имя в S1
+    let newS1 = S1.replace(S1, "Павел");
+    document.getElementById("replaced").textContent = `Имя заменено: ${newS1}`;
+  </script>
+</body>
+</html>

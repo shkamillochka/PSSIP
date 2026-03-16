@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Style Manipulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+        #element1 {
+            width: 200px;
+            padding: 20px;
+            margin: 20px;
+            border: 1px solid #ccc;
+            transition: all 0.3s ease;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div id="element1">
+        Элемент №1 - этот блок изменит стиль после нажатия кнопки
+    </div>
+
+    <button id="styleButton">Сменить стиль</button>
+
+    <script>
+        document.getElementById('styleButton').addEventListener('click', function() {
+            const element = document.getElementById('element1');
+            
+            // 1. Желтый цвет фона
+            element.style.backgroundColor = 'yellow';
+            
+            // 2. Синий цвет текста
+            element.style.color = 'blue';
+            
+            // 3. Перемещение в правый нижний угол
+            element.style.position = 'fixed';
+            element.style.right = '20px';
+            element.style.bottom = '20px';
+            
+            console.log('Стиль элемента изменен');
+        });
+    </script>
+</body>
+</html>
